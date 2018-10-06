@@ -2,11 +2,17 @@ import os
 import shutil
 import numpy as np
 import json
+import argparse
 
-frames = 5000000
+parser = argparse.ArgumentParser()
+parser.add_argument("--frames", type=int, default=10**6,
+                    help="number of frames of training (default: 10e6)")
+args = parser.parse_args()
+
+
 
 def train(env, name):
-  os.system("python3 -m scripts.train --algo ppo --env "+env+" --no-instr --tb --frames="+str(frames)+" --model "+name+" --save-interval 10")
+  os.system("python3 -m scripts.train --algo ppo --env "+env+" --no-instr --tb --frames="+str(args.frames)+" --model "+name+" --save-interval 10")
 
 def mkdir(filename):
     newpath = "storage/"+filename
@@ -14,8 +20,8 @@ def mkdir(filename):
         os.makedirs(newpath)
 
 def copy_agent(src, dest):
-    shutil.copy2('storage//'+src+'//model.pt', 'storage//'+dest+'//model.pt')
-    with open('storage//'+dest+'//status.json', 'w') as outfile:
+    shutil.copy2('storage/'+src+'/model.pt', 'storage/'+dest+'/model.pt')
+    with open('storage/'+dest+'/status.json', 'w') as outfile:
         json.dump({"num_frames": 0, "update": 0}, outfile)
 
 def main():
