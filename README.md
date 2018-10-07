@@ -17,3 +17,6 @@ Then view results with tensorboard, take some snapshots and write some paper for
 Gym-MinGrid repository: https://github.com/maximecb/gym-minigrid
 
 RL working repository: https://github.com/lcswillems/pytorch-a2c-ppo
+
+# Analysis
+Inside each results-folder you can find various screenshots and an info.txt file where i put my conclusions.
