@@ -1,0 +1,1 @@
+To add 10x10, 12x12 and 14x14 you have to manage file gym_mingrid/envs/doorkey.py (inside gym-mingrid project from maximecb)  and manaually def new classes and register them. An updated doorkey.py file is within this folder.
