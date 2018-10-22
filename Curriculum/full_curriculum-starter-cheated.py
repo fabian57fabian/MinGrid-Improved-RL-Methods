@@ -59,29 +59,26 @@ def main():
     train("MiniGrid-DoorKey-12x12-v0","DoorKey-12x12")
     train("MiniGrid-DoorKey-14x14-v0","DoorKey-14x14")
     train("MiniGrid-DoorKey-16x16-v0","DoorKey-16x16")
-
     #end simple training for DoorKey
 
     frames=2*10**6
     copy_agent("DoorKey-5x5","DoorKey-6x6-with-5x5")
     train("MiniGrid-DoorKey-6x6-v0","DoorKey-6x6-with-5x5")
-
+    #remains the same frame number
     copy_agent("DoorKey-6x6-with-5x5","DoorKey-8x8-with-6x6")
     train("MiniGrid-DoorKey-8x8-v0","DoorKey-8x8-with-6x6")
-
+    #remains the same frame number
     copy_agent("DoorKey-8x8-with-6x6","DoorKey-10x10-with-8x8")
     train("MiniGrid-DoorKey-10x10-v0","DoorKey-10x10-with-8x8")
-    
     frames=3*10**6
     copy_agent("DoorKey-10x10-with-8x8","DoorKey-12x12-with-10x10")
     train("MiniGrid-DoorKey-12x12-v0","DoorKey-12x12-with-10x10")
-
+    frames=9*10**6
     copy_agent("DoorKey-12x12-with-10x10","DoorKey-14x14-with-12x12")
     train("MiniGrid-DoorKey-14x14-v0","DoorKey-14x14-with-12x12")
-
+    #remains the same frame number
     copy_agent("DoorKey-14x14-with-12x12","DoorKey-16x16-with-14x14")
     train("MiniGrid-DoorKey-16x16-v0","DoorKey-16x16-with-14x14")
-    
     #End curriculum training for DoorKey
 
     save_enjoy_commands()
