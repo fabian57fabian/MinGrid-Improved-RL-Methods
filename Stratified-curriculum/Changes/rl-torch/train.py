@@ -7,6 +7,7 @@ import datetime
 import torch
 import torch_rl
 import sys
+import numpy as np
 
 try:
     import gym_minigrid
@@ -29,6 +30,10 @@ parser.add_argument("--seed", type=int, default=1,
                     help="random seed (default: 1)")
 parser.add_argument("--procs", type=int, default=16,
                     help="number of processes (default: 16)")
+parser.add_argument("--ending-acc", type=float, default=1,
+                    help="train until reaching a mean of this value as rreturn (default: 1, meaning training stops when reaching accurancy mean=1)")
+parser.add_argument("--ending-acc-window", type=int, default=5,
+                    help="number of log intervals to check mean for ending_acc (default: 5)")
 parser.add_argument("--frames", type=int, default=10**7,
                     help="number of frames of training (default: 10e7)")
 parser.add_argument("--log-interval", type=int, default=1,
@@ -147,7 +152,13 @@ num_frames = status["num_frames"]
 total_start_time = time.time()
 update = status["update"]
 
-while num_frames < args.frames:
+# Updated by FABIAN: generate mean over a window of N log interval
+# We use a circular list
+mean_acc_array = np.zeros(args.ending_acc_window)
+mean_acc_pos = 0
+mean_acc_mean = 0
+
+while num_frames < args.frames and mean_acc_mean < args.ending_acc:
     # Update model parameters
 
     update_start_time = time.time()
@@ -165,6 +176,11 @@ while num_frames < args.frames:
         return_per_episode = utils.synthesize(logs["return_per_episode"])
         rreturn_per_episode = utils.synthesize(logs["reshaped_return_per_episode"])
         num_frames_per_episode = utils.synthesize(logs["num_frames_per_episode"])
+
+        # Using this circular list, we remove (array[head] / N) from mean and add (rreturn_mean / N) to mean. then save rreturn_mean and move the tail (being mean_acc_pos)
+        mean_acc_mean = mean_acc_mean - (mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (rreturn_per_episode['mean'] / args.ending_acc_window)
+        mean_acc_pos = (mean_acc_pos + 1) % args.ending_acc_window
+        mean_acc_array[mean_acc_pos] = rreturn_per_episode['mean']
 
         header = ["update", "frames", "FPS", "duration"]
         data = [update, num_frames, fps, duration]
