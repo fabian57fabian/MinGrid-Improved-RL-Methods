@@ -1,0 +1,1 @@
+Results show that stratified curriculum may be way better than classic rl training and sometimes makes a training REALLY possible (when classical rl accomplish some results only for frames -> infinite)
