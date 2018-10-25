@@ -29,6 +29,6 @@ def main():
     for _delta in iter_deltas:
         train(20,_delta , ending_acc=0.9, N=40)
     # The last training with random doors
-    train(20,1,ending_acc=args.acc, N=30)
+    train(20,1,ending_acc=args.acc, N=40)
 
 main()
