@@ -16,7 +16,7 @@ env ="MiniGrid-DoorKey-"+args.env_size+"x"+args.env_size+"-v0"
 model="DoorKey-"+args.env_size+"x"+args.env_size+"-stratified"
 
 # Deltas used for training without last one (delta=1 means random over all wall locations)
-deltas = np.array([.06,.12,.19,.23,.28,.33,.38,.43,.48,.5,.6,.7,.8,.9,.99])
+deltas = np.array([.02,.06,.12,.19,.23,.28,.33,.38,.43,.48,.5,.6,.7,.8,.9,.99])
 
 def train(procs, delta_strat, ending_acc=1, N=5):
     os.system("python3 -m scripts.train --procs "+str(procs)+" --strat "+str(delta_strat)+" --algo=ppo --env " + env + " --no-instr --tb --frames=100000000 --model "+model+" --save-interval 10 --ending-acc "+str(ending_acc) + " --ending-acc-window "+str(N))

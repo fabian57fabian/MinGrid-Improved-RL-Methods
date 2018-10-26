@@ -721,7 +721,7 @@ class MiniGridEnv(gym.Env):
 
     def _gaussian_int(self, low, high):
         # Generate 'gaussian' integer in [low,high[
-        if low == high-1 : return low
+        if low == high-1 or self.delta_strat < .03 : return low
         if self.delta_strat <= 0.5:
             # Generate random int with gaussian function using self.delta_strat
             rnd = self.np_random.randint(0,100)
