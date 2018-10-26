@@ -724,13 +724,16 @@ class MiniGridEnv(gym.Env):
         if low == high-1 or self.delta_strat < .03 : return low
         if self.delta_strat <= 0.5:
             # Generate random int with gaussian function using self.delta_strat
+            base_pos = low + int((2*(self.delta_strat-.02)) * (high - 1 - low))
             rnd = self.np_random.randint(0,100)
-            if rnd > 90 :
-                posID = 1
-            else:
+            if rnd < 90 :
                 posID = 0
+            else:
+                posID = 1
+            if rnd < 6 and base_pos > low:
+                posID = -1
             # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
-            pos = low + int((2*(self.delta_strat-.02)) * (high - 1 - low)) + posID
+            pos = base_pos + posID
             if pos > high:
                 pos = high
             return pos

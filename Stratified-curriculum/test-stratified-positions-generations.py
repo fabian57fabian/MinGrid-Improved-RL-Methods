@@ -10,7 +10,7 @@ args = parser.parse_args()
 low = 2
 high = args.size-2
 plot=False
-np.random.seed(1336)
+#np.random.seed(1336)
 
 
 def tests():
@@ -18,8 +18,9 @@ def tests():
     # For 10x10, [2, 8[
     for delta in np.arange(0,1,.01):
         x=np.zeros(high+2)
-        for j in range(100):
-            x[_gaussian_int(low, high, delta)]+=1
+        for j in range(99):
+            meth = test_method(delta)
+            x[meth._gaussian_int(low, high)]+=1
         print(str(x) + " delta: "+str(delta))
         print()
         if plot:
@@ -27,25 +28,37 @@ def tests():
             plt.title("Delta: " + str(delta))
             plt.show()
 
-def _gaussian_int(low, high, delta_strat):
-    # Generate 'gaussian' integer in [low,high[
-    if low == high-1 : return low
-    if delta_strat <= 0.5:
-        # Generate random int with gaussian function using self.delta_strat
-        rnd = np.random.randint(0,100)
-        if rnd > 90 :
-            posID = 1
+class test_method:
+    def __init__(self, delta_strat):
+        self.delta_strat=delta_strat
+
+    class np_random:
+        def randint(low, high):
+            return np.random.randint(low, high)
+
+    def _gaussian_int(self, low, high):
+        # Generate 'gaussian' integer in [low,high[
+        if low == high-1 or self.delta_strat < .03 : return low
+        if self.delta_strat <= 0.5:
+            # Generate random int with gaussian function using self.delta_strat
+            base_pos = low + int((2*(self.delta_strat-.02)) * (high - 1 - low))
+            rnd = self.np_random.randint(0,100)
+            if rnd < 90 :
+                posID = 0
+            else:
+                posID = 1
+            if rnd < 6 and base_pos > low:
+                posID = -1
+            # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
+            pos = base_pos + posID
+            if pos > high:
+                pos = high
+            return pos
         else:
-            posID = 0
-        # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
-        pos = low + int((2*(delta_strat-.02)) * (high - 1 - low)) + posID
-        if pos > high:
-            pos = high
-        return pos
-    else:
-        # Generate random int in [x, high[, having x setted by delta_strat
-        x = 2 * (1 - delta_strat)
-        x = low + int((high-1-low)*x)
-        return np.random.randint(x, high)
+            # Generate random int in [x, high[, having x setted by delta_strat
+            x = 2 * (1 - self.delta_strat)
+            x = low + int((high-1-low)*x)
+            return self.np_random.randint(x, high)
+
 
 tests()
