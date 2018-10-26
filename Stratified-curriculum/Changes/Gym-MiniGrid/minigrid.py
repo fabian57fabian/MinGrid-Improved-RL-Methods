@@ -720,18 +720,25 @@ class MiniGridEnv(gym.Env):
         return obs
 
     def _gaussian_int(self, low, high):
-        if high == low : return low
-        # Generate random int with gaussian function using self.delta_strat
-        rnd = self.np_random.randint(0, 100)
-        if rnd > 90 : 
-            posID = 1
+        # Generate 'gaussian' integer in [low,high[
+        if low == high-1 : return low
+        if self.delta_strat <= 0.5:
+            # Generate random int with gaussian function using self.delta_strat
+            rnd = self.np_random.randint(0,100)
+            if rnd > 90 :
+                posID = 1
+            else:
+                posID = 0
+            # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
+            pos = low + int((2*(self.delta_strat-.02)) * (high - 1 - low)) + posID
+            if pos > high:
+                pos = high
+            return pos
         else:
-            posID = 0
-        # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
-        pos = low + int(self.delta_strat * (high - 1 - low)) + posID
-        if pos >= high: 
-            pos = high - 1
-        return pos
+            # Generate random int in [x, high[, having x setted by delta_strat
+            x = 2 * (1 - self.delta_strat)
+            x = low + int((high-1-low)*x)
+            return self.np_random.randint(x, high)
 
     def seed(self, seed=1337, delta_strat=1):
         self.delta_strat = delta_strat
