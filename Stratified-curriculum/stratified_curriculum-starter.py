@@ -31,12 +31,12 @@ def train(procs, delta_strat, ending_acc=1, N=5):
 
 def main():
     # Starting training frames
-    train(20,deltas[0], ending_acc=0.9, N=20)
+    train(20,deltas[0], ending_acc=0.9, N=100)
     iter_deltas = iter(deltas)
     next(iter_deltas)
     for _delta in iter_deltas:
-        train(20,_delta , ending_acc=0.9, N=50)
+        train(20,_delta , ending_acc=0.9, N=200)
     # The last training with random doors
-    train(20,1,ending_acc=args.acc, N=30)
+    train(20,1,ending_acc=args.acc, N=50)
 
 main()
