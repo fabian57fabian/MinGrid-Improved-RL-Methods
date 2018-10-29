@@ -24,7 +24,7 @@ deltas = np.arange(0,1,.02)
 
 
 def train(procs, delta_strat, ending_acc=1, N=5):
-    os.system("python3 -m scripts.train --procs "+str(procs)+" --strat "+str(delta_strat)+" --algo=ppo --env " + env + " --no-instr --tb --frames="+str(args.frames)+" --model "+model+" --save-interval 10 --ending-acc "+str(ending_acc) + " --ending-acc-window "+str(N))
+    os.system("python3 -m scripts.train --procs "+str(procs)+" --strat "+str(delta_strat)+" --sigma "+str(args.sigma)+ " --algo=ppo --env " + env + " --no-instr --tb --frames="+str(args.frames)+" --model "+model+" --save-interval 10 --ending-acc "+str(ending_acc) + " --ending-acc-window "+str(N))
     # Save train status
     with open('storage/'+model+'/status_stratified.json', 'w') as outfile:
             json.dump({"delta:": delta_strat}, outfile)    
