@@ -74,6 +74,8 @@ parser.add_argument("--no-mem", action="store_true", default=False,
                     help="don't use memory in the model")
 parser.add_argument("--strat", type=float, default=1,
                     help="delta for stratified curriculum (default 1 meaning no stratification, just random)")
+parser.add_argument("--sigma", type=float, default=0.6,
+                    help="sigma value for gaussian stratified (default: 0.6)")
 args = parser.parse_args()
 
 # Define run dir
@@ -105,7 +107,7 @@ utils.seed(args.seed)
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000*i, args.strat)
+    env.seed(args.seed + 10000*i, args.strat, args.sigma)
     envs.append(env)
 
 # Define obss preprocessor

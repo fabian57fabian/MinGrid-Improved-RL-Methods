@@ -756,11 +756,9 @@ class MiniGridEnv(gym.Env):
 
     def _gaussian_int(self, low, high):
         # Generate 'gaussian' integer in [low,high[
-        if low == high - 1 or self.delta_strat < .03: return low
         if self.delta_strat <= 0.5:
-            _sigma = 0.4
             _mean = 2 + ((2 * self.delta_strat) * (high - 1 - low))
-            pos = int(self.np_random.normal(_mean, _sigma))
+            pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))
             pos = high-1 if pos >= high else pos
             pos = low if pos < low else pos
             return pos
@@ -768,12 +766,14 @@ class MiniGridEnv(gym.Env):
             # Generate random int in [x, high[, having x setted by delta_strat
             x = 2 * (1 - self.delta_strat)
             x = low + int((high - 1 - low) * x)
-            return self.np_random.randint(x, high)
+            return self.np_random_gauss.randint(x, high)
 
-    def seed(self, seed=1337, delta_strat=1):
+    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6):
         self.delta_strat = delta_strat
+        self.gaussian_sigma = gaussian_sigma
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
+        self.np_random_gauss, _ = seeding.np_random(seed+20)
         return [seed]
 
     @property
