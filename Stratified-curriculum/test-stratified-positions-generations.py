@@ -62,6 +62,7 @@ class test_method:
         def normal(_mean, _sigma):
             return np.random.normal(_mean, _sigma)
 
+    # No sigma control
     def _gaussian_int_direct_big(self, low, high):
         # If number is one, then give back random uniform values in [low, high[
         if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
@@ -73,6 +74,7 @@ class test_method:
         pos = low if pos < low else pos
         return pos
 
+    # Sigma-CONTROLLED
     def _gaussian_int_direct(self, low, high):
         # If number is one, then give back random uniform values in [low, high[
         if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
@@ -83,6 +85,7 @@ class test_method:
         pos = low if pos < low else pos
         return pos
 
+    # Sigma-CONTROLLED
     def _gaussian_int_gaussian_and_random(self, low, high):
         # Generate 'gaussian' integer in [low,high[
         if self.delta_strat <= 0.5:
@@ -97,6 +100,7 @@ class test_method:
             x = low + int((high - 1 - low) * x)
             return self.np_random_gauss.randint(x, high)
 
+    # No sigma control
     def _gaussian_int_chi_and_random(self, low, high):
         # Generate 'gaussian' integer in [low,high[
         if low == high - 1 or self.delta_strat < .03: return low
