@@ -16,13 +16,15 @@ parser.add_argument("--strat", type=float, default=0.0,
                     help="strating strat for stratified (default: 0.0)")
 parser.add_argument("--frames", type=int, default=15000000,
                     help="max frames to calculate (default: 15000000)")
+parser.add_argument("--name", default="test",
+                    help="name for this model (default: test)")
 args = parser.parse_args()
 
 env ="MiniGrid-DoorKey-"+args.env_size+"x"+args.env_size+"-v0"
-model="DoorKey-"+args.env_size+"x"+args.env_size+"-stratified-sigma"+str(args.sigma)
+model="DoorKey-"+args.env_size+"x"+args.env_size+"-stratified-" + args.name
 
 # Deltas used for training without last one (delta=1 means random over all wall locations)
-deltas = np.arange(args.strat,1,.02)
+deltas = np.arange(args.strat,1,.03)
 
 
 def train(procs, delta_strat, ending_acc=1, N=5):
