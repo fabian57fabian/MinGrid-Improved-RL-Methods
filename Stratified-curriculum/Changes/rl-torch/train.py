@@ -180,9 +180,10 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         num_frames_per_episode = utils.synthesize(logs["num_frames_per_episode"])
 
         # Using this circular list, we remove (array[head] / N) from mean and add (rreturn_mean / N) to mean. then save rreturn_mean and move the tail (being mean_acc_pos)
-        mean_acc_mean = mean_acc_mean - (mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (rreturn_per_episode['mean'] / args.ending_acc_window)
+        accuracy = rreturn_per_episode['min']
+        mean_acc_mean = mean_acc_mean - (mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (accuracy / args.ending_acc_window)
         mean_acc_pos = (mean_acc_pos + 1) % args.ending_acc_window
-        mean_acc_array[mean_acc_pos] = rreturn_per_episode['mean']
+        mean_acc_array[mean_acc_pos] = accuracy
 
         header = ["update", "frames", "FPS", "duration"]
         data = [update, num_frames, fps, duration]
