@@ -25,14 +25,14 @@ def tests():
     cl_generator = test_method(0, args.sigma)
 
     # uncomment those lines to use different generators
-    #generator = cl_generator._gaussian_int_direct_big
+    generator = cl_generator._gaussian_int_direct_big
     #generator = cl_generator._gaussian_int_direct
     #generator = cl_generator._gaussian_int_gaussian_and_random
-    generator = cl_generator._gaussian_int_chi_and_random
+    #generator = cl_generator._gaussian_int_chi_and_random
 
     for delta in np.arange(0, 1.01, .01):
         x = np.zeros(high + 2)
-        for j in range(99):
+        for j in range(20):
             cl_generator.set_delta(delta)
             x[generator(low, high)] += 1
         print(str(x) + " delta: " + str(delta))
