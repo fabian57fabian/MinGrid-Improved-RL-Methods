@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# Updated by Fabian: added for copy and mkdir
+import os
+import shutil
 
 import argparse
 import gym
@@ -76,6 +79,8 @@ parser.add_argument("--strat", type=float, default=1,
                     help="delta for stratified curriculum (default 1 meaning no stratification, just random)")
 parser.add_argument("--sigma", type=float, default=0.6,
                     help="sigma value for gaussian stratified (default: 0.6)")
+parser.add_argument("--save-frames", type=float, default=1000000,
+                    help="frames after then save the model into a folder (default 1e6)")
 args = parser.parse_args()
 
 # Define run dir
@@ -160,6 +165,22 @@ mean_acc_array = np.zeros(args.ending_acc_window)
 mean_acc_pos = 0
 mean_acc_mean = 0
 
+def mkdir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+def copy_agent(src, dest):
+    mkdir('storage/'+save_folder + '/' + dest)
+    shutil.copy2('storage/'+src+'/model.pt', 'storage/'+save_folder+'/'+dest+'/model.pt')
+    with open('storage/'+save_folder+'/'+dest+'/status.json', 'w') as outfile:
+        json.dump({"num_frames": num_frames, "update": update, "strat": args.strat, "sigma": args.sigma}, outfile)
+
+#Updated by FABIAN: save model after each args.save_frames frames
+save_model_num = 1
+save_folder = "copies_of_"+ args.model
+
+mkdir("storage/" + save_folder)
+
 while num_frames < args.frames and mean_acc_mean < args.ending_acc:
     # Update model parameters
 
@@ -170,6 +191,10 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
     num_frames += logs["num_frames"]
     update += 1
 
+    if num_frames > save_model_num * args.save_frames:
+        save_model_num += 1
+        copy_agent(args.model, args.model+"_at_frames-"+num_frames)
+
     # Print logs
 
     if update % args.log_interval == 0:
@@ -178,7 +203,8 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         return_per_episode = utils.synthesize(logs["return_per_episode"])
         rreturn_per_episode = utils.synthesize(logs["reshaped_return_per_episode"])
         num_frames_per_episode = utils.synthesize(logs["num_frames_per_episode"])
-
+        
+        # Updated by FABIAN
         # Using this circular list, we remove (array[head] / N) from mean and add (rreturn_mean / N) to mean. then save rreturn_mean and move the tail (being mean_acc_pos)
         accuracy = rreturn_per_episode['min']
         mean_acc_mean = mean_acc_mean - (mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (accuracy / args.ending_acc_window)
