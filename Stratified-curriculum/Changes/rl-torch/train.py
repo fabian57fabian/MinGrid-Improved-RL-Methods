@@ -79,8 +79,8 @@ parser.add_argument("--strat", type=float, default=1,
                     help="delta for stratified curriculum (default 1 meaning no stratification, just random)")
 parser.add_argument("--sigma", type=float, default=0.6,
                     help="sigma value for gaussian stratified (default: 0.6)")
-parser.add_argument("--save-frames", type=float, default=1000000,
-                    help="frames after then save the model into a folder (default 1e6)")
+parser.add_argument("--save-frames", type=float, default=10000000,
+                    help="frames after then save the model into a folder (default 1e7)")
 args = parser.parse_args()
 
 # Define run dir
@@ -193,7 +193,7 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
 
     if num_frames > save_model_num * args.save_frames:
         save_model_num += 1
-        copy_agent(args.model, args.model+"_at_frames-"+num_frames)
+        copy_agent(args.model, args.model+"_at_frames-"+str(num_frames))
 
     # Print logs
 
