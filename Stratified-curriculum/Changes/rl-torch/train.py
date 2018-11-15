@@ -198,10 +198,6 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
     num_frames += logs["num_frames"]
     update += 1
 
-    if num_frames > save_model_num * args.save_frames:
-        save_model_num += 1
-        copy_agent(args.model, args.model + "_at_frames-" + str(num_frames))
-
     # Print logs
 
     if update % args.log_interval == 0:
@@ -259,3 +255,8 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         logger.info("Model successfully saved")
         if torch.cuda.is_available():
             acmodel.cuda()
+
+        #Updated by FABIAN: save a model each save_frames frames
+        if num_frames > save_model_num * args.save_frames:
+            save_model_num += 1
+            copy_agent(args.model, args.model + "_at_frames-" + str(num_frames))
