@@ -2,7 +2,7 @@
 # Updated by Fabian: added for copy and mkdir
 import os
 import shutil
-
+import json
 import argparse
 import gym
 import time
@@ -37,7 +37,7 @@ parser.add_argument("--ending-acc", type=float, default=1,
                     help="train until reaching a mean of this value as rreturn (default: 1, meaning training stops when reaching accurancy mean=1)")
 parser.add_argument("--ending-acc-window", type=int, default=5,
                     help="number of log intervals to check mean for ending_acc (default: 5)")
-parser.add_argument("--frames", type=int, default=10**7,
+parser.add_argument("--frames", type=int, default=10 ** 7,
                     help="number of frames of training (default: 10e7)")
 parser.add_argument("--log-interval", type=int, default=1,
                     help="number of updates between two logs (default: 1)")
@@ -96,6 +96,7 @@ logger = utils.get_logger(save_dir)
 csv_file, csv_writer = utils.get_csv_writer(save_dir)
 if args.tb:
     from tensorboardX import SummaryWriter
+
     tb_writer = SummaryWriter(save_dir)
 
 # Log command and all script arguments
@@ -112,7 +113,7 @@ utils.seed(args.seed)
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000*i, args.strat, args.sigma)
+    env.seed(args.seed + 10000 * i, args.strat, args.sigma)
     envs.append(env)
 
 # Define obss preprocessor
@@ -165,19 +166,25 @@ mean_acc_array = np.zeros(args.ending_acc_window)
 mean_acc_pos = 0
 mean_acc_mean = 0
 
+
 def mkdir(path):
     if not os.path.exists(path):
         os.makedirs(path)
 
-def copy_agent(src, dest):
-    mkdir('storage/'+save_folder + '/' + dest)
-    shutil.copy2('storage/'+src+'/model.pt', 'storage/'+save_folder+'/'+dest+'/model.pt')
-    with open('storage/'+save_folder+'/'+dest+'/status.json', 'w') as outfile:
-        json.dump({"num_frames": num_frames, "update": update, "strat": args.strat, "sigma": args.sigma}, outfile)
 
-#Updated by FABIAN: save model after each args.save_frames frames
+def copy_agent(src, dest):
+    mkdir('storage/' + save_folder + '/' + dest)
+    _src = 'storage/' + src + '/model.pt'
+    _dest =  'storage/' + save_folder + '/' + dest + '/model.pt'
+    shutil.copy2(_src, _dest)
+    with open('storage/' + save_folder + '/' + dest + '/status.json', 'w') as outfile:
+        json.dump({"num_frames": num_frames, "update": update, "strat": args.strat, "sigma": args.sigma}, outfile)
+    print("model successfully saved at frames " + str(num_frames))
+
+
+# Updated by FABIAN: save model after each args.save_frames frames
 save_model_num = 1
-save_folder = "copies_of_"+ args.model
+save_folder = "copies_of_" + args.model
 
 mkdir("storage/" + save_folder)
 
@@ -193,21 +200,23 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
 
     if num_frames > save_model_num * args.save_frames:
         save_model_num += 1
-        copy_agent(args.model, args.model+"_at_frames-"+str(num_frames))
+        copy_agent(args.model, args.model + "_at_frames-" + str(num_frames))
 
     # Print logs
 
     if update % args.log_interval == 0:
-        fps = logs["num_frames"]/(update_end_time - update_start_time)
+        fps = logs["num_frames"] / (update_end_time - update_start_time)
         duration = int(time.time() - total_start_time)
         return_per_episode = utils.synthesize(logs["return_per_episode"])
         rreturn_per_episode = utils.synthesize(logs["reshaped_return_per_episode"])
         num_frames_per_episode = utils.synthesize(logs["num_frames_per_episode"])
-        
+
         # Updated by FABIAN
         # Using this circular list, we remove (array[head] / N) from mean and add (rreturn_mean / N) to mean. then save rreturn_mean and move the tail (being mean_acc_pos)
         accuracy = rreturn_per_episode['min']
-        mean_acc_mean = mean_acc_mean - (mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (accuracy / args.ending_acc_window)
+        mean_acc_mean = mean_acc_mean - (
+                    mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (
+                                    accuracy / args.ending_acc_window)
         mean_acc_pos = (mean_acc_pos + 1) % args.ending_acc_window
         mean_acc_array[mean_acc_pos] = accuracy
 
@@ -222,7 +231,7 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
 
         logger.info(
             "U {} | F {:06} | FPS {:04.0f} | D {} | rR:x̄σmM {:.2f} {:.2f} {:.2f} {:.2f} | F:x̄σmM {:.1f} {:.1f} {} {} | H {:.3f} | V {:.3f} | pL {:.3f} | vL {:.3f} | ∇ {:.3f}"
-            .format(*data))
+                .format(*data))
 
         header += ["return_" + key for key in return_per_episode.keys()]
         data += return_per_episode.values()
