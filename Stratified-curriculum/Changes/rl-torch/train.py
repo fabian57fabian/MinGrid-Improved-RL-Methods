@@ -81,6 +81,8 @@ parser.add_argument("--sigma", type=float, default=0.6,
                     help="sigma value for gaussian stratified (default: 0.6)")
 parser.add_argument("--save-frames", type=float, default=10000000,
                     help="frames after then save the model into a folder (default 1e7)")
+parser.add_argument("--use-min", action="store_true", default=False,
+                    help="use min instead of mean for accurancy")
 args = parser.parse_args()
 
 # Define run dir
@@ -175,7 +177,7 @@ def mkdir(path):
 def copy_agent(src, dest):
     mkdir('storage/' + save_folder + '/' + dest)
     _src = 'storage/' + src + '/model.pt'
-    _dest =  'storage/' + save_folder + '/' + dest + '/model.pt'
+    _dest = 'storage/' + save_folder + '/' + dest + '/model.pt'
     shutil.copy2(_src, _dest)
     with open('storage/' + save_folder + '/' + dest + '/status.json', 'w') as outfile:
         json.dump({"num_frames": num_frames, "update": update, "strat": args.strat, "sigma": args.sigma}, outfile)
@@ -183,8 +185,11 @@ def copy_agent(src, dest):
 
 
 # Updated by FABIAN: save model after each args.save_frames frames
-save_model_num = 1
+last_frame_block = int(num_frames / args.save_frames)
 save_folder = "copies_of_" + args.model
+
+if num_frames > args.save_frames:
+    copy_agent(args.model, "first-strat-"+str(args.strat) + "-frames-" + str(num_frames))
 
 mkdir("storage/" + save_folder)
 
@@ -209,10 +214,10 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
 
         # Updated by FABIAN
         # Using this circular list, we remove (array[head] / N) from mean and add (rreturn_mean / N) to mean. then save rreturn_mean and move the tail (being mean_acc_pos)
-        accuracy = rreturn_per_episode['min']
+        accuracy = rreturn_per_episode['min' if args.use_min else 'mean']
         mean_acc_mean = mean_acc_mean - (
-                    mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (
-                                    accuracy / args.ending_acc_window)
+                mean_acc_array[(mean_acc_pos + 1) % args.ending_acc_window] / args.ending_acc_window) + (
+                                accuracy / args.ending_acc_window)
         mean_acc_pos = (mean_acc_pos + 1) % args.ending_acc_window
         mean_acc_array[mean_acc_pos] = accuracy
 
@@ -256,7 +261,7 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         if torch.cuda.is_available():
             acmodel.cuda()
 
-        #Updated by FABIAN: save a model each save_frames frames
-        if num_frames > save_model_num * args.save_frames:
-            save_model_num += 1
-            copy_agent(args.model, args.model + "_at_frames-" + str(num_frames))
+    # Updated by FABIAN: save a model each save_frames frames
+    if int(num_frames / args.save_frames) > last_frame_block:
+        last_frame_block = int(num_frames / args.save_frames)
+        copy_agent(args.model, "frames-" + str(num_frames))
