@@ -23,6 +23,8 @@ parser.add_argument("--procs", type=int, default=40,
                     help="procs to start (default: 40)")
 parser.add_argument("--name", default="test",
                     help="name for this model (default: test)")
+parser.add_argument("--discount", type=float, default=0.999,
+                    help="discount factor (default: 0.999)")
 args = parser.parse_args()
 
 env = "MiniGrid-DoorKey-" + args.env_size + "x" + args.env_size + "-v0"
@@ -38,7 +40,8 @@ def train(procs, delta_strat, ending_acc=1.0, N=5):
     os.system("python3 -m scripts.train --procs " + str(procs) + " --strat " + str(delta_strat) + " --sigma " + str(
         args.sigma) + " --algo=ppo --env " + env + " --no-instr --tb --frames=" + str(
         args.frames) + " --model " + model + " --save-interval 10 --ending-acc " + str(
-        ending_acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames))
+        ending_acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
+        args.discount) + (" --use-min" if args.use_min else "") )
     # Save train status
     with open('storage/' + model + '/status_stratified.json', 'w') as outfile:
         json.dump({"delta:": delta_strat}, outfile)
