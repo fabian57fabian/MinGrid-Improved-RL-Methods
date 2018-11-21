@@ -5,8 +5,10 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("-size", type=int, default=17,
                     help="size of MiniGrid (default 5 as 5x5)")
-parser.add_argument("-sigma", type=float, default=0.6,
+parser.add_argument("-sigma", type=float, default=0.55,
                     help="sigma for gaussians (default 0.6)")
+parser.add_argument("-type", default="gigar",
+                    help="type of test (gigar, gicar, gidb, gid)")
 args = parser.parse_args()
 
 # Those are high and low values (e.g. for 10x10 are [2, 8[ )
@@ -23,16 +25,15 @@ def tests():
 
     # Generating testing class
     cl_generator = test_method(0, args.sigma)
-
-    # uncomment those lines to use different generators
-    generator = cl_generator._gaussian_int_direct_big
-    #generator = cl_generator._gaussian_int_direct
-    #generator = cl_generator._gaussian_int_gaussian_and_random
-    #generator = cl_generator._gaussian_int_chi_and_random
+    generator = None
+    generator = cl_generator._gaussian_int_gaussian_and_random if args.type == "gigar" else generator
+    generator = cl_generator._gaussian_int_direct_big if args.type == "gidb" else generator
+    generator = cl_generator._gaussian_int_direct if args.type == "gid" else generator
+    generator = cl_generator._gaussian_int_chi_and_random if args.type == "gicar" else generator
 
     for delta in np.arange(0, 1.01, .01):
         x = np.zeros(high + 2)
-        for j in range(20):
+        for j in range(99):
             cl_generator.set_delta(delta)
             x[generator(low, high)] += 1
         print(str(x) + " delta: " + str(delta))
@@ -56,6 +57,7 @@ class test_method:
     class np_random_gauss:
         def uniform(low, high):
             return np.random.uniform(low, high, 1)
+
         def randint(low, high):
             return np.random.randint(low, high)
 
@@ -68,7 +70,7 @@ class test_method:
         if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
         # Generate 'gaussian' integer in [low,high[ getting bigget
         _mean = low + ((self.delta_strat / 2) * (high - low))
-        _sigma = self.delta_strat * (high - low)/3
+        _sigma = self.delta_strat * (high - low) / 3
         pos = int(self.np_random_gauss.normal(_mean, _sigma))
         pos = high - 1 if pos >= high else pos
         pos = low if pos < low else pos
@@ -88,6 +90,8 @@ class test_method:
     # Sigma-CONTROLLED
     def _gaussian_int_gaussian_and_random(self, low, high):
         # Generate 'gaussian' integer in [low,high[
+        if low == high-1 or self.delta_strat == 0: 
+            return low
         if self.delta_strat <= 0.5:
             _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
             pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))

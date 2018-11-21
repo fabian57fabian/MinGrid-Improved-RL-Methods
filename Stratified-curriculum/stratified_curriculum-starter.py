@@ -23,8 +23,10 @@ parser.add_argument("--procs", type=int, default=40,
                     help="procs to start (default: 40)")
 parser.add_argument("--name", default="test",
                     help="name for this model (default: test)")
-parser.add_argument("--discount", type=float, default=0.999,
-                    help="discount factor (default: 0.999)")
+parser.add_argument("--discount", type=float, default=0.99,
+                    help="discount factor (default: 0.99)")
+parser.add_argument("--use-min", action="store_true", default=False,
+                    help="use min instead of mean for accurancy")
 args = parser.parse_args()
 
 env = "MiniGrid-DoorKey-" + args.env_size + "x" + args.env_size + "-v0"

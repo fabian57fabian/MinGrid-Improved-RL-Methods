@@ -730,36 +730,15 @@ class MiniGridEnv(gym.Env):
         obs = self.gen_obs()
         return obs
 
-    def _gaussian_int_1(self, low, high):
+    # gigar
+    def _strat_int(self, low, high):
         # Generate 'gaussian' integer in [low,high[
-        if low == high - 1 or self.delta_strat < .03: return low
+        if low == high-1 or self.delta_strat == 0: 
+            return low
         if self.delta_strat <= 0.5:
-            # Generate random int with gaussian function using self.delta_strat
-            base_pos = low + int((2 * (self.delta_strat - .02)) * (high - 1 - low))
-            rnd = self.np_random.randint(0, 100)
-            if rnd < 90:
-                posID = 0
-            else:
-                posID = 1
-            if rnd < 6 and base_pos > low:
-                posID = -1
-            # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
-            pos = base_pos + posID
-            if pos > high:
-                pos = high
-            return pos
-        else:
-            # Generate random int in [x, high[, having x setted by delta_strat
-            x = 2 * (1 - self.delta_strat)
-            x = low + int((high - 1 - low) * x)
-            return self.np_random.randint(x, high)
-
-    def _gaussian_int(self, low, high):
-        # Generate 'gaussian' integer in [low,high[
-        if self.delta_strat <= 0.5:
-            _mean = 2 + ((2 * self.delta_strat) * (high - 1 - low))
+            _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
             pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))
-            pos = high-1 if pos >= high else pos
+            pos = high - 1 if pos >= high else pos
             pos = low if pos < low else pos
             return pos
         else:
@@ -773,7 +752,7 @@ class MiniGridEnv(gym.Env):
         self.gaussian_sigma = gaussian_sigma
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
-        self.np_random_gauss, _ = seeding.np_random(seed+20)
+        self.np_random_gauss, _ = seeding.np_random(seed + 20)
         return [seed]
 
     @property
