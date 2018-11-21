@@ -83,6 +83,8 @@ parser.add_argument("--save-frames", type=float, default=10000000,
                     help="frames after then save the model into a folder (default 1e7)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
+parser.add_argument("--reward-multiplier", type=float, default=0.9,
+                    help="reward multiplier for reward formulae (1-rm * (steps/max_step)). default: 0.9. Lower it is, higher is the reward")
 args = parser.parse_args()
 
 # Define run dir
@@ -115,7 +117,8 @@ utils.seed(args.seed)
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000 * i, args.strat, args.sigma)
+    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma,
+             reward_multiplier=args.reward_multiplier)
     envs.append(env)
 
 # Define obss preprocessor
@@ -189,7 +192,7 @@ last_frame_block = int(num_frames / args.save_frames)
 save_folder = "copies_of_" + args.model
 
 if num_frames > args.save_frames:
-    copy_agent(args.model, "first-strat-"+str(args.strat) + "-frames-" + str(num_frames))
+    copy_agent(args.model, "first-strat-" + str(args.strat) + "-frames-" + str(num_frames))
 
 mkdir("storage/" + save_folder)
 

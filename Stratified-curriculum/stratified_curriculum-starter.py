@@ -27,6 +27,8 @@ parser.add_argument("--discount", type=float, default=0.99,
                     help="discount factor (default: 0.99)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
+parser.add_argument("--reward-multiplier", type=float, default=0.9,
+                    help="reward multiplier for reward formulae (1-rm * (steps/max_step)). default: 0.9. Lower it is, higher is the reward")
 args = parser.parse_args()
 
 env = "MiniGrid-DoorKey-" + args.env_size + "x" + args.env_size + "-v0"
@@ -43,7 +45,7 @@ def train(procs, delta_strat, ending_acc=1.0, N=5):
         args.sigma) + " --algo=ppo --env " + env + " --no-instr --tb --frames=" + str(
         args.frames) + " --model " + model + " --save-interval 10 --ending-acc " + str(
         ending_acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
-        args.discount) + (" --use-min" if args.use_min else "") )
+        args.discount) + (" --use-min" if args.use_min else "") + " --reward-multiplier " + str(args.reward_multiplier))
     # Save train status
     with open('storage/' + model + '/status_stratified.json', 'w') as outfile:
         json.dump({"delta:": delta_strat}, outfile)

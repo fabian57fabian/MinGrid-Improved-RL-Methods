@@ -747,12 +747,13 @@ class MiniGridEnv(gym.Env):
             x = low + int((high - 1 - low) * x)
             return self.np_random_gauss.randint(x, high)
 
-    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6):
+    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, reward_multiplier=0.9):
         self.delta_strat = delta_strat
         self.gaussian_sigma = gaussian_sigma
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
         self.np_random_gauss, _ = seeding.np_random(seed + 20)
+        self.reward_multiplier=reward_multiplier
         return [seed]
 
     @property
@@ -853,9 +854,10 @@ class MiniGridEnv(gym.Env):
     def _reward(self):
         """
         Compute the reward to be given upon success
+        self.reward_multiplier default 0.9
         """
 
-        return 1 - 0.9 * (self.step_count / self.max_steps)
+        return 1 - self.reward_multiplier * (self.step_count / self.max_steps)
 
     def _rand_int(self, low, high):
         """
