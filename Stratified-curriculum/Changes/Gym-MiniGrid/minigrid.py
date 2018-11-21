@@ -733,7 +733,7 @@ class MiniGridEnv(gym.Env):
     # gigar
     def _strat_int(self, low, high):
         # Generate 'gaussian' integer in [low,high[
-        if low == high-1 or self.delta_strat == 0: 
+        if low == high - 1 or self.delta_strat == 0:
             return low
         if self.delta_strat <= 0.5:
             _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
@@ -753,7 +753,7 @@ class MiniGridEnv(gym.Env):
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
         self.np_random_gauss, _ = seeding.np_random(seed + 20)
-        self.reward_multiplier=reward_multiplier
+        self.reward_multiplier = reward_multiplier
         return [seed]
 
     @property
