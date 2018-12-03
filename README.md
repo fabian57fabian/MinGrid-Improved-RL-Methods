@@ -15,3 +15,14 @@ Then view results with tensorboard, take some snapshots and write some paper for
 
 # Analysis
 Inside each results-folder you can find various screenshots and an info.txt file where i put my conclusions.
+
+# Folders
+Repository have folling folders:
+-All-results-1e6-frames: contains basic curriculum training from 5x5, 6x6, 8x8, 16x16 with  1e6 frames
+-All-results-5-10e6: contains basic curriculum training from 5x5, 6x6, 8x8, 16x16 with 5x1e6 frames
+-Curriculum: contains real results using basic curriculum (using 5x5, 6x6, 8x8, 10x10, 12x12, 14x14, 16x16) with graphs and descriptions
+-Stratified-curriculum: contains working thesis data.
+  * Interesting results are in folder __Results/16x16__.
+  * __Changes__ folder contain all files changed in Gym-MiniGrid and rl-torch (just clone basic repositories and paste our changes, it will work).
+  * __stratified_curriculum-starter.py__ is a script to train with stratified curriculum. it have to be placed inside rl-torch folder (because it calls scripts/train.py script).
+  * __est-stratified-positions-generations.py__ is a script to test each stratified_int generator for integers based on delta_strat and sigma
