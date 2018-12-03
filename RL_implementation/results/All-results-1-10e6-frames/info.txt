@@ -1,5 +1,0 @@
-As we can see the 6x6 DoorKey trained with 5x5 agent has definitely improved the return_mean per FPS and it is really high compared to the agent trained in 6x6 from 'zero'.
-
-Analyzing DoorKey 8x8 we can see that the basic agent can't be trained in 1 million FPS to be a 'good' agent when instead the 8x8 trained with 6x6 was doing fine just from the beginning.
-
-Analyzing DoorKey 16x16 we can see that both agents are not trained really good and have a shitty return_mean. We can't conclude anything so we have to train with more than 10e6 frames to achieve some goals, plot the data and see the results.

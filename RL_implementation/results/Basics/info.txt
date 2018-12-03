@@ -1,2 +1,0 @@
-Frames: 5*10e6
-Env: MinGrid-DoorKey-YxY-v0 with Y E {5,6,8,16}

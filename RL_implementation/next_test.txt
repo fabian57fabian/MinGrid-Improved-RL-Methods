@@ -1,1 +1,0 @@
-python stratified_curriculum-starter.py --acc 0.93 --sigma 0.7 --frames 40000000 --N 50 --procs 40 --name gigar_retlow --discount 0.99 --use-min --reward-multiplier 0.5
