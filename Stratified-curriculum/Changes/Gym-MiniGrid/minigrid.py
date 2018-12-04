@@ -730,31 +730,30 @@ class MiniGridEnv(gym.Env):
         obs = self.gen_obs()
         return obs
 
-    # gigar
+    # Changed by fabian: all _start_int generators added
+    # gidb
     def _strat_int(self, low, high):
-        # Generate 'gaussian' integer in [low,high[
-        if low == high - 1 or self.delta_strat == 0:
-            return low
-        if self.delta_strat <= 0.5:
-            _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
-            pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))
-            pos = high - 1 if pos >= high else pos
-            pos = low if pos < low else pos
-            return pos
-        else:
-            # Generate random int in [x, high[, having x setted by delta_strat
-            x = 2 * (1 - self.delta_strat)
-            x = low + int((high - 1 - low) * x)
-            return self.np_random_gauss.randint(x, high)
+        # If number is one, then give back random uniform values in [low, high[
+        if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
+        # Generate 'gaussian' integer in [low,high[ getting bigget
+        _mean = low + ((self.delta_strat / 2) * (high - low))
+        _sigma = self.delta_strat * (high - low) / 3
+        pos = int(self.np_random_gauss.normal(_mean, _sigma))
+        pos = high - 1 if pos >= high else pos
+        pos = low if pos < low else pos
+        return pos
 
-    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, reward_multiplier=0.9):
+    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6):
         self.delta_strat = delta_strat
         self.gaussian_sigma = gaussian_sigma
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
         self.np_random_gauss, _ = seeding.np_random(seed + 20)
-        self.reward_multiplier = reward_multiplier
         return [seed]
+
+    def set_reward_multiplier(self, reward_multiplier):
+        assert reward_multiplier > 0 and reward_multiplier <= 1
+        self.reward_multiplier = reward_multiplier
 
     @property
     def steps_remaining(self):

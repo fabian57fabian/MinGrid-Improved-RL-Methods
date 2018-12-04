@@ -13,6 +13,9 @@ class DoorKeyEnv(MiniGridEnv):
             max_steps=10 * size * size
         )
 
+    def set_max_steps(self, max_steps):
+        self.max_steps = max_steps;
+
     def _gen_grid(self, width, height):
         # Create an empty grid
         self.grid = Grid(width, height)

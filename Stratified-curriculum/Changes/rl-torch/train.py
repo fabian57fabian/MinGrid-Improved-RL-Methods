@@ -79,8 +79,10 @@ parser.add_argument("--strat", type=float, default=1,
                     help="delta for stratified curriculum (default 1 meaning no stratification, just random)")
 parser.add_argument("--sigma", type=float, default=0.6,
                     help="sigma value for gaussian stratified (default: 0.6)")
-parser.add_argument("--save-frames", type=float, default=10000000,
+parser.add_argument("--save-frames", type=int, default=10000000,
                     help="frames after then save the model into a folder (default 1e7)")
+parser.add_argument("--max-steps", type=int, default=-1,
+                    help="max steps for DoorKey env (default: -1 as default 10*size*size)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
 parser.add_argument("--reward-multiplier", type=float, default=0.9,
@@ -117,8 +119,11 @@ utils.seed(args.seed)
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma,
-             reward_multiplier=args.reward_multiplier)
+    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma)
+    env.set_reward_multiplier(args.reward_multiplier)
+    if args.max_steps != -1:
+        # default max steps are 10*size*size, for size=16 is 2560
+        env.set_max_steps(args.max_steps)
     envs.append(env)
 
 # Define obss preprocessor
@@ -228,8 +233,8 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         data = [update, num_frames, fps, duration]
         header += ["rreturn_" + key for key in rreturn_per_episode.keys()]
         data += rreturn_per_episode.values()
-        #header += ["num_frames_" + key for key in num_frames_per_episode.keys()]
-        #data += num_frames_per_episode.values()
+        # header += ["num_frames_" + key for key in num_frames_per_episode.keys()]
+        # data += num_frames_per_episode.values()
         header += ["entropy", "value", "policy_loss", "value_loss", "grad_norm"]
         data += [logs["entropy"], logs["value"], logs["policy_loss"], logs["value_loss"], logs["grad_norm"]]
         """ old logger, too much data
