@@ -44,7 +44,7 @@ model = "DK" + str(args.env_size) + "-strat-" + args.name
 
 trained_model_path = "storage/DK-" + str(args.env_size) + "-strat"
 
-if not os.path.exists(trained_model_path):
+if not os.path.isdir(trained_model_path) and not os.path.exists(trained_model_path + '/model.pt'):
     print("BASIC Model in " + trained_model_path + " doesn't exists. Please create it and restart.")
     raise Exception("Missing basic trained model")
 
@@ -59,7 +59,7 @@ def mkdir(path):
         os.makedirs(path)
 
 
-if not os.path.exists(model):
+if not os.path.isdir('storage/' + model):
     src = "storage" + "/DK-" + str(args.env_size) + "-strat"
     dest = "storage/" + model
     print("Creating model based on BASIC model")
