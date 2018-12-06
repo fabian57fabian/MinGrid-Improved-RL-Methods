@@ -87,6 +87,8 @@ parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
 parser.add_argument("--reward-multiplier", type=float, default=0.9,
                     help="reward multiplier for reward formulae (1-rm * (steps/max_step)). default: 0.9. Lower it is, higher is the reward")
+parser.add_argument("--strat-method", default='gicar',
+                    help="name of the method to use [gigar, gicar, gidb, gib](default: gicar)")
 args = parser.parse_args()
 
 # Define run dir
@@ -119,7 +121,7 @@ utils.seed(args.seed)
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma)
+    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma, strat_method=args.strat_method)
     env.set_reward_multiplier(args.reward_multiplier)
     if args.max_steps != -1:
         # default max steps are 10*size*size, for size=16 is 2560
@@ -244,6 +246,7 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         """
 
         data += [logs["matches_played"]]
+        header += ["Games"]
         logger.info(
             "U {} | F {:06} | FPS {:04.0f} | D {} | rR:x̄σmM {:.2f} {:.2f} {:.2f} {:.2f} | H {:.3f} | V {:.3f} | pL {:.3f} | vL {:.3f} | ∇ {:.3f} | Games {}"
                 .format(*data))
