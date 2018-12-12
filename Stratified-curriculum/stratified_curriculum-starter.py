@@ -48,7 +48,7 @@ if args.max_steps == 0:
     args.max_steps = 10 * args.env_size * args.env_size
 
 env = "MiniGrid-DoorKey-" + str(args.env_size) + "x" + str(args.env_size) + "-v0"
-model = "DK" + str(args.env_size) + "-strat-" + args.name
+model = args.name
 
 trained_model_path = "storage/" + args.starting_model + "-" + str(args.env_size)
 
@@ -77,11 +77,11 @@ if not os.path.exists("storage/" + model) and not args.start_from_zero:
         shutil.copyfile(src + '/' + _file, dest + '/' + _file)
 
 
-def train(procs, delta_strat, ending_acc=1.0, N=5):
+def train(procs, delta_strat, N=5):
     os.system("python3 -m scripts.train --procs " + str(procs) + " --strat " + str(delta_strat) + " --sigma " + str(
         args.sigma) + " --algo=ppo --env " + env + " --no-instr --tb --frames=" + str(
         args.frames) + " --model " + model + " --save-interval 10 --ending-acc " + str(
-        ending_acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
+        args.acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
         args.discount) + (" --use-min" if args.use_min else "") + " --reward-multiplier " + str(
         args.reward_multiplier) + " --max-steps " + str(args.max_steps) + " --strat-method " + str(args.strat_method))
     # Save train status
@@ -113,9 +113,9 @@ def main():
             return 0
         else:
             old_frames = new_frames
-        train(args.procs, _delta, ending_acc=0.9, N=args.N)
+        train(args.procs, _delta, N=args.N)
     # The last training with random doors
-    train(args.procs, 1, ending_acc=args.acc, N=args.N)
+    train(args.procs, 1, N=args.N)
 
 
 try:
