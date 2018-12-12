@@ -1,0 +1,1 @@
+{"delta:": 1, "acc": 0.9, "env-size": 16, "max-frames": 13000000, "N": 50, "procs": 40, "name": "train_STEPS_10000", "discount": 0.99, "use-min": false, "reward-multiplier": 0.8}
