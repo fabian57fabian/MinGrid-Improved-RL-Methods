@@ -247,8 +247,10 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
 
         data += [logs["matches_played"]]
         header += ["Games"]
+        data += [args.strat]
+        header += ["Strat"]
         logger.info(
-            "U {} | F {:06} | FPS {:04.0f} | D {} | rR:x̄σmM {:.2f} {:.2f} {:.2f} {:.2f} | H {:.3f} | V {:.3f} | pL {:.3f} | vL {:.3f} | ∇ {:.3f} | Games {}"
+            "U {} | F {:06} | FPS {:04.0f} | D {} | rR:x̄σmM {:.2f} {:.2f} {:.2f} {:.2f} | H {:.3f} | V {:.3f} | pL {:.3f} | vL {:.3f} | ∇ {:.3f} | Games {} | Strat {}"
                 .format(*data))
         header += ["return_" + key for key in return_per_episode.keys()]
         data += return_per_episode.values()

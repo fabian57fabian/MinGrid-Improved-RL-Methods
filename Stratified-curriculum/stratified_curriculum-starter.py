@@ -32,6 +32,8 @@ parser.add_argument("--discount", type=float, default=0.99,
                     help="discount factor (default: 0.99)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
+parser.add_argument("--start-from-zero", action="store_true", default=False,
+                    help="use a trained model in strat=0.0")
 parser.add_argument("--max-steps", type=int, default=0,
                     help="max steps for DoorKey env (default: 10 * size * size)")
 parser.add_argument("--reward-multiplier", type=float, default=0.9,
@@ -63,7 +65,7 @@ def mkdir(path):
         os.makedirs(path)
 
 
-if not os.path.exists(model):
+if not os.path.exists("storage/" + model) and not args.start_from_zero:
     src = "storage" + "/DK-" + str(args.env_size) + "-strat"
     dest = "storage/" + model
     print("Creating model based on BASIC model")
@@ -88,8 +90,27 @@ def train(procs, delta_strat, ending_acc=1.0, N=5):
              "reward-multiplier": args.reward_multiplier}, outfile)
 
 
+status_file = "storage/" + model + "/status.json"
+
+
+def read_last_frames():
+    if os.path.exists(status_file):
+        with open(status_file) as f:
+            data = json.load(f)
+            return data["num_frames"]
+    else:
+        return -1
+
+
 def main():
+    old_frames = -2
     for _delta in deltas:
+        new_frames = read_last_frames()
+        if new_frames == old_frames:
+            print("Closing because max fames limit of " + str(args.frames) + " reached")
+            return 0
+        else:
+            old_frames = new_frames
         train(args.procs, _delta, ending_acc=0.9, N=args.N)
     # The last training with random doors
     train(args.procs, 1, ending_acc=args.acc, N=args.N)
