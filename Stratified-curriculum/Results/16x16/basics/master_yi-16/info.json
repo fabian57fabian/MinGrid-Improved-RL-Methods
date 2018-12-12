@@ -1,0 +1,1 @@
+{"delta:": 0.2, "acc": 1.0, "env-size": 16, "max-frames": 4200000, "N": 50, "procs": 40, "name": "master_yi-16", "discount": 0.99, "use-min": false, "reward-multiplier": 0.9}

@@ -1135,3 +1135,279 @@ ACModel(
 CUDA available: True
 
 U 978 | F 5007360 | FPS 1073 | D 4 | rR:x̄σmM 0.31 0.45 0.00 0.98 | Games 13 | Strat 0.2 | H 1.666 | V 0.507 | pL 0.053 | vL 0.004 | ∇ 0.047
+/home/fabian_57/thesis_projects/curriculum-test/scripts/train.py --procs 40 --strat 0.0 --sigma 0.15 --algo=ppo --env MiniGrid-DoorKey-16x16-v0 --no-instr --tb --frames=6000000 --model garen-16 --save-interval 10 --ending-acc 1.0 --ending-acc-window 50 --save-frames 1000000 --discount 0.99 --reward-multiplier 0.9 --max-steps 2560 --strat-method gidb
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, ending_acc=1.0, ending_acc_window=50, entropy_coef=0.01, env='MiniGrid-DoorKey-16x16-v0', epochs=4, frames=6000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, max_steps=2560, model='garen-16', no_instr=True, no_mem=False, optim_alpha=0.99, optim_eps=1e-05, procs=40, recurrence=1, reward_multiplier=0.9, save_frames=1000000, save_interval=10, seed=1, sigma=0.15, strat=0.0, strat_method='gidb', tb=True, use_min=False, value_loss_coef=0.5)
+
+Model successfully loaded
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(3, 16, kernel_size=(2, 2), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (3): Conv2d(16, 32, kernel_size=(2, 2), stride=(1, 1))
+    (4): ReLU()
+    (5): Conv2d(32, 64, kernel_size=(2, 2), stride=(1, 1))
+    (6): ReLU()
+  )
+  (memory_rnn): LSTMCell(64, 64)
+  (actor): Sequential(
+    (0): Linear(in_features=64, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=7, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=64, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
+U 979 | F 5012480 | FPS 1426 | D 3 | rR:x̄σmM 0.73 0.42 0.00 0.99 | Games 30 | Strat 0.0 | H 1.621 | V 0.542 | pL 0.008 | vL 0.002 | ∇ 0.033
+U 980 | F 5017600 | FPS 1707 | D 6 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 48 | Strat 0.0 | H 1.623 | V 0.567 | pL 0.003 | vL 0.003 | ∇ 0.032
+Model successfully saved
+U 981 | F 5022720 | FPS 1680 | D 9 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 42 | Strat 0.0 | H 1.651 | V 0.568 | pL 0.012 | vL 0.003 | ∇ 0.039
+U 982 | F 5027840 | FPS 1461 | D 13 | rR:x̄σmM 0.96 0.02 0.92 0.99 | Games 44 | Strat 0.0 | H 1.649 | V 0.575 | pL 0.017 | vL 0.002 | ∇ 0.024
+U 983 | F 5032960 | FPS 1640 | D 16 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 33 | Strat 0.0 | H 1.656 | V 0.547 | pL 0.016 | vL 0.004 | ∇ 0.032
+U 984 | F 5038080 | FPS 1652 | D 19 | rR:x̄σmM 0.95 0.04 0.77 0.98 | Games 50 | Strat 0.0 | H 1.626 | V 0.536 | pL 0.005 | vL 0.003 | ∇ 0.026
+U 985 | F 5043200 | FPS 1639 | D 22 | rR:x̄σmM 0.96 0.02 0.89 0.99 | Games 40 | Strat 0.0 | H 1.627 | V 0.493 | pL 0.000 | vL 0.003 | ∇ 0.026
+U 986 | F 5048320 | FPS 1630 | D 25 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 36 | Strat 0.0 | H 1.634 | V 0.449 | pL -0.007 | vL 0.004 | ∇ 0.036
+U 987 | F 5053440 | FPS 1620 | D 28 | rR:x̄σmM 0.96 0.02 0.88 0.99 | Games 38 | Strat 0.0 | H 1.636 | V 0.474 | pL -0.012 | vL 0.003 | ∇ 0.038
+U 988 | F 5058560 | FPS 1620 | D 31 | rR:x̄σmM 0.95 0.04 0.80 0.98 | Games 48 | Strat 0.0 | H 1.617 | V 0.550 | pL -0.011 | vL 0.003 | ∇ 0.040
+U 989 | F 5063680 | FPS 1622 | D 35 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 42 | Strat 0.0 | H 1.626 | V 0.570 | pL 0.005 | vL 0.003 | ∇ 0.035
+U 990 | F 5068800 | FPS 1631 | D 38 | rR:x̄σmM 0.96 0.01 0.92 0.99 | Games 43 | Strat 0.0 | H 1.620 | V 0.543 | pL 0.008 | vL 0.003 | ∇ 0.028
+Model successfully saved
+U 991 | F 5073920 | FPS 1625 | D 41 | rR:x̄σmM 0.96 0.03 0.86 0.99 | Games 47 | Strat 0.0 | H 1.602 | V 0.549 | pL 0.003 | vL 0.003 | ∇ 0.034
+U 992 | F 5079040 | FPS 1608 | D 44 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 45 | Strat 0.0 | H 1.583 | V 0.551 | pL 0.001 | vL 0.002 | ∇ 0.033
+U 993 | F 5084160 | FPS 1607 | D 47 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 49 | Strat 0.0 | H 1.577 | V 0.579 | pL -0.000 | vL 0.003 | ∇ 0.031
+U 994 | F 5089280 | FPS 1614 | D 51 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 50 | Strat 0.0 | H 1.592 | V 0.548 | pL -0.011 | vL 0.003 | ∇ 0.034
+U 995 | F 5094400 | FPS 1613 | D 54 | rR:x̄σmM 0.96 0.02 0.92 0.98 | Games 50 | Strat 0.0 | H 1.557 | V 0.592 | pL -0.003 | vL 0.002 | ∇ 0.023
+U 996 | F 5099520 | FPS 1614 | D 57 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 49 | Strat 0.0 | H 1.602 | V 0.565 | pL -0.002 | vL 0.003 | ∇ 0.024
+U 997 | F 5104640 | FPS 1600 | D 60 | rR:x̄σmM 0.96 0.02 0.89 0.98 | Games 47 | Strat 0.0 | H 1.637 | V 0.546 | pL 0.003 | vL 0.003 | ∇ 0.027
+U 998 | F 5109760 | FPS 1604 | D 63 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 32 | Strat 0.0 | H 1.704 | V 0.476 | pL 0.010 | vL 0.003 | ∇ 0.030
+U 999 | F 5114880 | FPS 1609 | D 66 | rR:x̄σmM 0.95 0.02 0.89 0.98 | Games 36 | Strat 0.0 | H 1.643 | V 0.515 | pL 0.002 | vL 0.004 | ∇ 0.028
+U 1000 | F 5120000 | FPS 1619 | D 70 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 41 | Strat 0.0 | H 1.654 | V 0.503 | pL 0.003 | vL 0.003 | ∇ 0.033
+Model successfully saved
+U 1001 | F 5125120 | FPS 1620 | D 73 | rR:x̄σmM 0.96 0.03 0.81 0.98 | Games 43 | Strat 0.0 | H 1.644 | V 0.515 | pL 0.005 | vL 0.003 | ∇ 0.032
+U 1002 | F 5130240 | FPS 1633 | D 76 | rR:x̄σmM 0.96 0.04 0.75 0.98 | Games 43 | Strat 0.0 | H 1.623 | V 0.519 | pL 0.002 | vL 0.003 | ∇ 0.026
+U 1003 | F 5135360 | FPS 1606 | D 79 | rR:x̄σmM 0.96 0.03 0.82 0.98 | Games 43 | Strat 0.0 | H 1.599 | V 0.544 | pL 0.000 | vL 0.003 | ∇ 0.034
+U 1004 | F 5140480 | FPS 1612 | D 82 | rR:x̄σmM 0.96 0.02 0.84 0.98 | Games 50 | Strat 0.0 | H 1.582 | V 0.553 | pL -0.009 | vL 0.004 | ∇ 0.036
+U 1005 | F 5145600 | FPS 1608 | D 85 | rR:x̄σmM 0.97 0.01 0.91 0.99 | Games 58 | Strat 0.0 | H 1.540 | V 0.581 | pL -0.017 | vL 0.002 | ∇ 0.023
+U 1006 | F 5150720 | FPS 1618 | D 89 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 56 | Strat 0.0 | H 1.562 | V 0.586 | pL -0.007 | vL 0.003 | ∇ 0.034
+U 1007 | F 5155840 | FPS 1612 | D 92 | rR:x̄σmM 0.96 0.03 0.75 0.99 | Games 49 | Strat 0.0 | H 1.603 | V 0.565 | pL -0.007 | vL 0.003 | ∇ 0.038
+U 1008 | F 5160960 | FPS 1609 | D 95 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 47 | Strat 0.0 | H 1.610 | V 0.550 | pL -0.000 | vL 0.003 | ∇ 0.042
+U 1009 | F 5166080 | FPS 1611 | D 98 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 45 | Strat 0.0 | H 1.566 | V 0.551 | pL -0.005 | vL 0.003 | ∇ 0.038
+U 1010 | F 5171200 | FPS 1601 | D 101 | rR:x̄σmM 0.96 0.02 0.89 0.98 | Games 55 | Strat 0.0 | H 1.573 | V 0.576 | pL -0.002 | vL 0.003 | ∇ 0.028
+Model successfully saved
+U 1011 | F 5176320 | FPS 1604 | D 105 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 55 | Strat 0.0 | H 1.573 | V 0.611 | pL -0.003 | vL 0.002 | ∇ 0.028
+U 1012 | F 5181440 | FPS 1595 | D 108 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 57 | Strat 0.0 | H 1.564 | V 0.588 | pL -0.010 | vL 0.002 | ∇ 0.027
+U 1013 | F 5186560 | FPS 1570 | D 111 | rR:x̄σmM 0.96 0.01 0.90 0.98 | Games 49 | Strat 0.0 | H 1.567 | V 0.607 | pL 0.000 | vL 0.002 | ∇ 0.027
+U 1014 | F 5191680 | FPS 1618 | D 114 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 51 | Strat 0.0 | H 1.526 | V 0.608 | pL 0.005 | vL 0.002 | ∇ 0.030
+U 1015 | F 5196800 | FPS 1599 | D 117 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 53 | Strat 0.0 | H 1.572 | V 0.601 | pL 0.004 | vL 0.003 | ∇ 0.026
+U 1016 | F 5201920 | FPS 1605 | D 121 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 49 | Strat 0.0 | H 1.566 | V 0.578 | pL 0.002 | vL 0.003 | ∇ 0.028
+U 1017 | F 5207040 | FPS 1618 | D 124 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 56 | Strat 0.0 | H 1.536 | V 0.595 | pL -0.006 | vL 0.002 | ∇ 0.025
+U 1018 | F 5212160 | FPS 1629 | D 127 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 58 | Strat 0.0 | H 1.541 | V 0.588 | pL -0.012 | vL 0.002 | ∇ 0.023
+U 1019 | F 5217280 | FPS 1613 | D 130 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 58 | Strat 0.0 | H 1.563 | V 0.606 | pL -0.005 | vL 0.002 | ∇ 0.028
+U 1020 | F 5222400 | FPS 1626 | D 133 | rR:x̄σmM 0.97 0.02 0.91 0.99 | Games 50 | Strat 0.0 | H 1.558 | V 0.597 | pL -0.005 | vL 0.002 | ∇ 0.031
+Model successfully saved
+U 1021 | F 5227520 | FPS 1618 | D 136 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 53 | Strat 0.0 | H 1.544 | V 0.618 | pL 0.008 | vL 0.002 | ∇ 0.029
+U 1022 | F 5232640 | FPS 1626 | D 140 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 57 | Strat 0.0 | H 1.562 | V 0.626 | pL 0.001 | vL 0.002 | ∇ 0.027
+U 1023 | F 5237760 | FPS 1618 | D 143 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 51 | Strat 0.0 | H 1.604 | V 0.608 | pL 0.008 | vL 0.002 | ∇ 0.028
+U 1024 | F 5242880 | FPS 1604 | D 146 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 49 | Strat 0.0 | H 1.587 | V 0.582 | pL 0.008 | vL 0.002 | ∇ 0.030
+U 1025 | F 5248000 | FPS 1520 | D 149 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 50 | Strat 0.0 | H 1.589 | V 0.559 | pL -0.010 | vL 0.002 | ∇ 0.029
+U 1026 | F 5253120 | FPS 1524 | D 153 | rR:x̄σmM 0.97 0.02 0.89 0.99 | Games 49 | Strat 0.0 | H 1.583 | V 0.548 | pL 0.000 | vL 0.003 | ∇ 0.030
+U 1027 | F 5258240 | FPS 1610 | D 156 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 47 | Strat 0.0 | H 1.594 | V 0.568 | pL -0.007 | vL 0.003 | ∇ 0.033
+U 1028 | F 5263360 | FPS 1594 | D 159 | rR:x̄σmM 0.96 0.03 0.80 0.99 | Games 47 | Strat 0.0 | H 1.555 | V 0.579 | pL -0.007 | vL 0.003 | ∇ 0.035
+U 1029 | F 5268480 | FPS 1615 | D 162 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 60 | Strat 0.0 | H 1.526 | V 0.606 | pL -0.002 | vL 0.002 | ∇ 0.022
+U 1030 | F 5273600 | FPS 1614 | D 165 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 61 | Strat 0.0 | H 1.518 | V 0.612 | pL -0.011 | vL 0.002 | ∇ 0.029
+Model successfully saved
+U 1031 | F 5278720 | FPS 1615 | D 169 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 54 | Strat 0.0 | H 1.559 | V 0.580 | pL -0.001 | vL 0.002 | ∇ 0.027
+U 1032 | F 5283840 | FPS 1624 | D 172 | rR:x̄σmM 0.97 0.02 0.91 0.99 | Games 52 | Strat 0.0 | H 1.536 | V 0.588 | pL -0.005 | vL 0.002 | ∇ 0.030
+U 1033 | F 5288960 | FPS 1603 | D 175 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 54 | Strat 0.0 | H 1.504 | V 0.608 | pL -0.005 | vL 0.002 | ∇ 0.032
+U 1034 | F 5294080 | FPS 1611 | D 178 | rR:x̄σmM 0.97 0.01 0.91 0.99 | Games 59 | Strat 0.0 | H 1.508 | V 0.621 | pL -0.007 | vL 0.002 | ∇ 0.029
+U 1035 | F 5299200 | FPS 1610 | D 181 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 56 | Strat 0.0 | H 1.525 | V 0.611 | pL 0.000 | vL 0.002 | ∇ 0.029
+U 1036 | F 5304320 | FPS 1589 | D 185 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 54 | Strat 0.0 | H 1.585 | V 0.614 | pL 0.008 | vL 0.003 | ∇ 0.030
+U 1037 | F 5309440 | FPS 1609 | D 188 | rR:x̄σmM 0.96 0.01 0.91 0.99 | Games 52 | Strat 0.0 | H 1.626 | V 0.598 | pL 0.005 | vL 0.003 | ∇ 0.031
+U 1038 | F 5314560 | FPS 1625 | D 191 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 42 | Strat 0.0 | H 1.640 | V 0.575 | pL 0.008 | vL 0.002 | ∇ 0.030
+U 1039 | F 5319680 | FPS 1615 | D 194 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 42 | Strat 0.0 | H 1.608 | V 0.578 | pL 0.010 | vL 0.002 | ∇ 0.023
+U 1040 | F 5324800 | FPS 1605 | D 197 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 49 | Strat 0.0 | H 1.625 | V 0.551 | pL 0.003 | vL 0.003 | ∇ 0.023
+Model successfully saved
+U 1041 | F 5329920 | FPS 1624 | D 200 | rR:x̄σmM 0.96 0.02 0.89 0.98 | Games 49 | Strat 0.0 | H 1.603 | V 0.541 | pL -0.010 | vL 0.003 | ∇ 0.027
+U 1042 | F 5335040 | FPS 1611 | D 204 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 46 | Strat 0.0 | H 1.594 | V 0.572 | pL -0.005 | vL 0.003 | ∇ 0.029
+U 1043 | F 5340160 | FPS 1615 | D 207 | rR:x̄σmM 0.96 0.01 0.93 0.99 | Games 50 | Strat 0.0 | H 1.556 | V 0.588 | pL -0.002 | vL 0.002 | ∇ 0.028
+U 1044 | F 5345280 | FPS 1619 | D 210 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 63 | Strat 0.0 | H 1.542 | V 0.604 | pL -0.012 | vL 0.002 | ∇ 0.024
+U 1045 | F 5350400 | FPS 1614 | D 213 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 52 | Strat 0.0 | H 1.592 | V 0.599 | pL -0.004 | vL 0.002 | ∇ 0.022
+U 1046 | F 5355520 | FPS 1606 | D 216 | rR:x̄σmM 0.97 0.02 0.87 0.98 | Games 53 | Strat 0.0 | H 1.597 | V 0.615 | pL 0.008 | vL 0.002 | ∇ 0.026
+U 1047 | F 5360640 | FPS 1619 | D 220 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 47 | Strat 0.0 | H 1.557 | V 0.601 | pL 0.005 | vL 0.002 | ∇ 0.026
+U 1048 | F 5365760 | FPS 1606 | D 223 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 57 | Strat 0.0 | H 1.539 | V 0.606 | pL -0.002 | vL 0.003 | ∇ 0.023
+U 1049 | F 5370880 | FPS 1605 | D 226 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 56 | Strat 0.0 | H 1.574 | V 0.600 | pL -0.004 | vL 0.002 | ∇ 0.027
+U 1050 | F 5376000 | FPS 1609 | D 229 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 53 | Strat 0.0 | H 1.595 | V 0.559 | pL 0.001 | vL 0.003 | ∇ 0.034
+Model successfully saved
+U 1051 | F 5381120 | FPS 1625 | D 232 | rR:x̄σmM 0.96 0.02 0.90 0.99 | Games 44 | Strat 0.0 | H 1.610 | V 0.560 | pL -0.003 | vL 0.003 | ∇ 0.029
+U 1052 | F 5386240 | FPS 1605 | D 235 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 53 | Strat 0.0 | H 1.584 | V 0.599 | pL -0.007 | vL 0.003 | ∇ 0.033
+U 1053 | F 5391360 | FPS 1616 | D 239 | rR:x̄σmM 0.97 0.02 0.90 0.98 | Games 51 | Strat 0.0 | H 1.587 | V 0.611 | pL 0.005 | vL 0.003 | ∇ 0.023
+U 1054 | F 5396480 | FPS 1616 | D 242 | rR:x̄σmM 0.96 0.01 0.92 0.99 | Games 56 | Strat 0.0 | H 1.593 | V 0.612 | pL 0.002 | vL 0.002 | ∇ 0.019
+U 1055 | F 5401600 | FPS 1622 | D 245 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 50 | Strat 0.0 | H 1.583 | V 0.573 | pL 0.004 | vL 0.002 | ∇ 0.023
+U 1056 | F 5406720 | FPS 1592 | D 248 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 51 | Strat 0.0 | H 1.618 | V 0.580 | pL -0.005 | vL 0.002 | ∇ 0.023
+U 1057 | F 5411840 | FPS 1608 | D 251 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 52 | Strat 0.0 | H 1.589 | V 0.573 | pL -0.001 | vL 0.003 | ∇ 0.028
+U 1058 | F 5416960 | FPS 1622 | D 254 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 51 | Strat 0.0 | H 1.576 | V 0.609 | pL -0.004 | vL 0.002 | ∇ 0.027
+U 1059 | F 5422080 | FPS 1617 | D 258 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 59 | Strat 0.0 | H 1.560 | V 0.630 | pL -0.007 | vL 0.002 | ∇ 0.025
+U 1060 | F 5427200 | FPS 1623 | D 261 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 53 | Strat 0.0 | H 1.592 | V 0.638 | pL 0.015 | vL 0.002 | ∇ 0.025
+Model successfully saved
+U 1061 | F 5432320 | FPS 1610 | D 264 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 46 | Strat 0.0 | H 1.641 | V 0.595 | pL 0.017 | vL 0.002 | ∇ 0.026
+U 1062 | F 5437440 | FPS 1613 | D 267 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 47 | Strat 0.0 | H 1.665 | V 0.579 | pL 0.010 | vL 0.003 | ∇ 0.028
+U 1063 | F 5442560 | FPS 1613 | D 270 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 39 | Strat 0.0 | H 1.683 | V 0.541 | pL 0.010 | vL 0.003 | ∇ 0.023
+U 1064 | F 5447680 | FPS 1608 | D 274 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 40 | Strat 0.0 | H 1.666 | V 0.504 | pL 0.007 | vL 0.002 | ∇ 0.023
+U 1065 | F 5452800 | FPS 1615 | D 277 | rR:x̄σmM 0.95 0.02 0.87 0.99 | Games 39 | Strat 0.0 | H 1.686 | V 0.477 | pL 0.000 | vL 0.003 | ∇ 0.028
+U 1066 | F 5457920 | FPS 1615 | D 280 | rR:x̄σmM 0.95 0.02 0.90 0.98 | Games 36 | Strat 0.0 | H 1.645 | V 0.455 | pL -0.013 | vL 0.004 | ∇ 0.040
+U 1067 | F 5463040 | FPS 1609 | D 283 | rR:x̄σmM 0.96 0.02 0.89 0.99 | Games 49 | Strat 0.0 | H 1.586 | V 0.532 | pL -0.015 | vL 0.003 | ∇ 0.034
+U 1068 | F 5468160 | FPS 1615 | D 286 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 46 | Strat 0.0 | H 1.574 | V 0.586 | pL -0.013 | vL 0.003 | ∇ 0.033
+U 1069 | F 5473280 | FPS 1616 | D 289 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 57 | Strat 0.0 | H 1.566 | V 0.620 | pL -0.003 | vL 0.002 | ∇ 0.023
+U 1070 | F 5478400 | FPS 1606 | D 293 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 51 | Strat 0.0 | H 1.619 | V 0.574 | pL 0.006 | vL 0.002 | ∇ 0.022
+Model successfully saved
+U 1071 | F 5483520 | FPS 1609 | D 296 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 43 | Strat 0.0 | H 1.601 | V 0.563 | pL 0.007 | vL 0.003 | ∇ 0.023
+U 1072 | F 5488640 | FPS 1614 | D 299 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 48 | Strat 0.0 | H 1.569 | V 0.552 | pL -0.005 | vL 0.003 | ∇ 0.026
+U 1073 | F 5493760 | FPS 1616 | D 302 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 56 | Strat 0.0 | H 1.582 | V 0.570 | pL -0.013 | vL 0.002 | ∇ 0.025
+U 1074 | F 5498880 | FPS 1607 | D 305 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 51 | Strat 0.0 | H 1.584 | V 0.585 | pL -0.008 | vL 0.002 | ∇ 0.027
+U 1075 | F 5504000 | FPS 1614 | D 309 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 46 | Strat 0.0 | H 1.592 | V 0.608 | pL 0.009 | vL 0.003 | ∇ 0.030
+U 1076 | F 5509120 | FPS 1616 | D 312 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 45 | Strat 0.0 | H 1.617 | V 0.594 | pL 0.014 | vL 0.002 | ∇ 0.024
+U 1077 | F 5514240 | FPS 1627 | D 315 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 52 | Strat 0.0 | H 1.615 | V 0.600 | pL 0.009 | vL 0.002 | ∇ 0.020
+U 1078 | F 5519360 | FPS 1581 | D 318 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 50 | Strat 0.0 | H 1.618 | V 0.564 | pL 0.001 | vL 0.002 | ∇ 0.021
+U 1079 | F 5524480 | FPS 1600 | D 321 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 42 | Strat 0.0 | H 1.593 | V 0.563 | pL 0.006 | vL 0.002 | ∇ 0.020
+U 1080 | F 5529600 | FPS 1597 | D 325 | rR:x̄σmM 0.96 0.01 0.94 0.98 | Games 44 | Strat 0.0 | H 1.589 | V 0.547 | pL -0.001 | vL 0.002 | ∇ 0.023
+Model successfully saved
+U 1081 | F 5534720 | FPS 1616 | D 328 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 53 | Strat 0.0 | H 1.590 | V 0.543 | pL -0.009 | vL 0.003 | ∇ 0.027
+U 1082 | F 5539840 | FPS 1613 | D 331 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 49 | Strat 0.0 | H 1.540 | V 0.579 | pL -0.016 | vL 0.003 | ∇ 0.031
+U 1083 | F 5544960 | FPS 1619 | D 334 | rR:x̄σmM 0.97 0.02 0.89 0.99 | Games 64 | Strat 0.0 | H 1.559 | V 0.625 | pL -0.005 | vL 0.002 | ∇ 0.029
+U 1084 | F 5550080 | FPS 1623 | D 337 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 43 | Strat 0.0 | H 1.572 | V 0.623 | pL 0.013 | vL 0.002 | ∇ 0.023
+U 1085 | F 5555200 | FPS 1611 | D 340 | rR:x̄σmM 0.96 0.01 0.92 0.99 | Games 57 | Strat 0.0 | H 1.606 | V 0.607 | pL 0.005 | vL 0.002 | ∇ 0.022
+U 1086 | F 5560320 | FPS 1617 | D 344 | rR:x̄σmM 0.96 0.01 0.94 0.98 | Games 43 | Strat 0.0 | H 1.614 | V 0.565 | pL 0.012 | vL 0.002 | ∇ 0.021
+U 1087 | F 5565440 | FPS 1602 | D 347 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 54 | Strat 0.0 | H 1.619 | V 0.570 | pL 0.001 | vL 0.002 | ∇ 0.024
+U 1088 | F 5570560 | FPS 1630 | D 350 | rR:x̄σmM 0.96 0.02 0.93 0.99 | Games 45 | Strat 0.0 | H 1.649 | V 0.563 | pL 0.002 | vL 0.002 | ∇ 0.025
+U 1089 | F 5575680 | FPS 1619 | D 353 | rR:x̄σmM 0.96 0.02 0.93 0.99 | Games 41 | Strat 0.0 | H 1.605 | V 0.575 | pL 0.001 | vL 0.003 | ∇ 0.028
+U 1090 | F 5580800 | FPS 1617 | D 356 | rR:x̄σmM 0.96 0.02 0.89 0.98 | Games 52 | Strat 0.0 | H 1.629 | V 0.585 | pL 0.005 | vL 0.003 | ∇ 0.029
+Model successfully saved
+U 1091 | F 5585920 | FPS 1594 | D 359 | rR:x̄σmM 0.96 0.02 0.87 0.98 | Games 45 | Strat 0.0 | H 1.650 | V 0.566 | pL 0.009 | vL 0.003 | ∇ 0.026
+U 1092 | F 5591040 | FPS 1585 | D 363 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 41 | Strat 0.0 | H 1.674 | V 0.542 | pL 0.012 | vL 0.002 | ∇ 0.023
+U 1093 | F 5596160 | FPS 1601 | D 366 | rR:x̄σmM 0.96 0.02 0.92 0.98 | Games 45 | Strat 0.0 | H 1.639 | V 0.531 | pL 0.000 | vL 0.002 | ∇ 0.022
+U 1094 | F 5601280 | FPS 1613 | D 369 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 49 | Strat 0.0 | H 1.593 | V 0.558 | pL -0.007 | vL 0.002 | ∇ 0.023
+U 1095 | F 5606400 | FPS 1600 | D 372 | rR:x̄σmM 0.96 0.03 0.81 0.98 | Games 44 | Strat 0.0 | H 1.615 | V 0.539 | pL 0.002 | vL 0.002 | ∇ 0.028
+U 1096 | F 5611520 | FPS 1606 | D 375 | rR:x̄σmM 0.96 0.02 0.91 0.99 | Games 44 | Strat 0.0 | H 1.604 | V 0.532 | pL -0.007 | vL 0.003 | ∇ 0.024
+U 1097 | F 5616640 | FPS 1597 | D 379 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 48 | Strat 0.0 | H 1.553 | V 0.550 | pL -0.007 | vL 0.003 | ∇ 0.024
+U 1098 | F 5621760 | FPS 1605 | D 382 | rR:x̄σmM 0.96 0.02 0.85 0.98 | Games 53 | Strat 0.0 | H 1.538 | V 0.593 | pL -0.017 | vL 0.002 | ∇ 0.025
+U 1099 | F 5626880 | FPS 1565 | D 385 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 54 | Strat 0.0 | H 1.506 | V 0.620 | pL -0.004 | vL 0.002 | ∇ 0.022
+U 1100 | F 5632000 | FPS 1618 | D 388 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 62 | Strat 0.0 | H 1.537 | V 0.625 | pL 0.001 | vL 0.002 | ∇ 0.023
+Model successfully saved
+U 1101 | F 5637120 | FPS 1606 | D 392 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 43 | Strat 0.0 | H 1.586 | V 0.578 | pL 0.012 | vL 0.003 | ∇ 0.026
+U 1102 | F 5642240 | FPS 1605 | D 395 | rR:x̄σmM 0.96 0.02 0.89 0.99 | Games 45 | Strat 0.0 | H 1.626 | V 0.600 | pL 0.008 | vL 0.003 | ∇ 0.023
+U 1103 | F 5647360 | FPS 1610 | D 398 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 47 | Strat 0.0 | H 1.685 | V 0.562 | pL 0.018 | vL 0.003 | ∇ 0.023
+U 1104 | F 5652480 | FPS 1588 | D 401 | rR:x̄σmM 0.96 0.02 0.92 0.98 | Games 43 | Strat 0.0 | H 1.648 | V 0.550 | pL 0.010 | vL 0.003 | ∇ 0.022
+U 1105 | F 5657600 | FPS 1618 | D 404 | rR:x̄σmM 0.96 0.02 0.91 0.98 | Games 47 | Strat 0.0 | H 1.626 | V 0.552 | pL 0.002 | vL 0.003 | ∇ 0.025
+U 1106 | F 5662720 | FPS 1612 | D 407 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 42 | Strat 0.0 | H 1.595 | V 0.556 | pL -0.002 | vL 0.003 | ∇ 0.025
+U 1107 | F 5667840 | FPS 1612 | D 411 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 50 | Strat 0.0 | H 1.575 | V 0.561 | pL -0.011 | vL 0.002 | ∇ 0.022
+U 1108 | F 5672960 | FPS 1598 | D 414 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 51 | Strat 0.0 | H 1.590 | V 0.595 | pL -0.004 | vL 0.002 | ∇ 0.022
+U 1109 | F 5678080 | FPS 1620 | D 417 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 54 | Strat 0.0 | H 1.561 | V 0.618 | pL 0.001 | vL 0.002 | ∇ 0.019
+U 1110 | F 5683200 | FPS 1622 | D 420 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 56 | Strat 0.0 | H 1.526 | V 0.612 | pL -0.003 | vL 0.002 | ∇ 0.024
+Model successfully saved
+U 1111 | F 5688320 | FPS 1601 | D 423 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 52 | Strat 0.0 | H 1.546 | V 0.607 | pL 0.002 | vL 0.002 | ∇ 0.021
+U 1112 | F 5693440 | FPS 1592 | D 427 | rR:x̄σmM 0.97 0.02 0.91 0.98 | Games 52 | Strat 0.0 | H 1.608 | V 0.586 | pL 0.002 | vL 0.002 | ∇ 0.022
+U 1113 | F 5698560 | FPS 1621 | D 430 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 51 | Strat 0.0 | H 1.636 | V 0.590 | pL -0.000 | vL 0.002 | ∇ 0.019
+U 1114 | F 5703680 | FPS 1604 | D 433 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 43 | Strat 0.0 | H 1.605 | V 0.560 | pL 0.009 | vL 0.002 | ∇ 0.025
+U 1115 | F 5708800 | FPS 1595 | D 436 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 47 | Strat 0.0 | H 1.625 | V 0.570 | pL -0.002 | vL 0.002 | ∇ 0.021
+U 1116 | F 5713920 | FPS 1605 | D 439 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 46 | Strat 0.0 | H 1.612 | V 0.568 | pL 0.005 | vL 0.002 | ∇ 0.020
+U 1117 | F 5719040 | FPS 1589 | D 443 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 50 | Strat 0.0 | H 1.609 | V 0.578 | pL -0.005 | vL 0.002 | ∇ 0.021
+U 1118 | F 5724160 | FPS 1595 | D 446 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 55 | Strat 0.0 | H 1.582 | V 0.592 | pL -0.008 | vL 0.002 | ∇ 0.021
+U 1119 | F 5729280 | FPS 1608 | D 449 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 54 | Strat 0.0 | H 1.532 | V 0.609 | pL -0.002 | vL 0.003 | ∇ 0.021
+U 1120 | F 5734400 | FPS 1615 | D 452 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 65 | Strat 0.0 | H 1.532 | V 0.614 | pL -0.015 | vL 0.003 | ∇ 0.021
+Model successfully saved
+U 1121 | F 5739520 | FPS 1611 | D 455 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 60 | Strat 0.0 | H 1.562 | V 0.623 | pL -0.007 | vL 0.002 | ∇ 0.018
+U 1122 | F 5744640 | FPS 1612 | D 459 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 60 | Strat 0.0 | H 1.546 | V 0.640 | pL -0.002 | vL 0.002 | ∇ 0.019
+U 1123 | F 5749760 | FPS 1316 | D 462 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 56 | Strat 0.0 | H 1.565 | V 0.636 | pL 0.003 | vL 0.002 | ∇ 0.019
+U 1124 | F 5754880 | FPS 1602 | D 466 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 61 | Strat 0.0 | H 1.591 | V 0.619 | pL 0.004 | vL 0.003 | ∇ 0.018
+U 1125 | F 5760000 | FPS 1608 | D 469 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 52 | Strat 0.0 | H 1.587 | V 0.607 | pL 0.005 | vL 0.002 | ∇ 0.018
+U 1126 | F 5765120 | FPS 1623 | D 472 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 48 | Strat 0.0 | H 1.590 | V 0.555 | pL 0.006 | vL 0.002 | ∇ 0.021
+U 1127 | F 5770240 | FPS 1622 | D 475 | rR:x̄σmM 0.96 0.02 0.92 0.98 | Games 49 | Strat 0.0 | H 1.568 | V 0.598 | pL -0.008 | vL 0.003 | ∇ 0.023
+U 1128 | F 5775360 | FPS 1604 | D 478 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 55 | Strat 0.0 | H 1.532 | V 0.634 | pL -0.002 | vL 0.002 | ∇ 0.019
+U 1129 | F 5780480 | FPS 1609 | D 481 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 54 | Strat 0.0 | H 1.597 | V 0.615 | pL 0.006 | vL 0.002 | ∇ 0.018
+U 1130 | F 5785600 | FPS 1616 | D 485 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 57 | Strat 0.0 | H 1.549 | V 0.622 | pL 0.002 | vL 0.002 | ∇ 0.018
+Model successfully saved
+U 1131 | F 5790720 | FPS 1621 | D 488 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 55 | Strat 0.0 | H 1.617 | V 0.607 | pL 0.004 | vL 0.002 | ∇ 0.019
+U 1132 | F 5795840 | FPS 1615 | D 491 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 53 | Strat 0.0 | H 1.596 | V 0.598 | pL 0.001 | vL 0.002 | ∇ 0.018
+U 1133 | F 5800960 | FPS 1609 | D 494 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 42 | Strat 0.0 | H 1.617 | V 0.574 | pL 0.008 | vL 0.002 | ∇ 0.024
+U 1134 | F 5806080 | FPS 1613 | D 497 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 50 | Strat 0.0 | H 1.642 | V 0.564 | pL 0.004 | vL 0.003 | ∇ 0.024
+U 1135 | F 5811200 | FPS 1618 | D 501 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 39 | Strat 0.0 | H 1.622 | V 0.574 | pL 0.009 | vL 0.003 | ∇ 0.022
+U 1136 | F 5816320 | FPS 1618 | D 504 | rR:x̄σmM 0.96 0.01 0.91 0.98 | Games 51 | Strat 0.0 | H 1.599 | V 0.579 | pL 0.005 | vL 0.003 | ∇ 0.022
+U 1137 | F 5821440 | FPS 1612 | D 507 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 50 | Strat 0.0 | H 1.553 | V 0.560 | pL -0.007 | vL 0.002 | ∇ 0.021
+U 1138 | F 5826560 | FPS 1612 | D 510 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 59 | Strat 0.0 | H 1.562 | V 0.599 | pL -0.014 | vL 0.002 | ∇ 0.024
+U 1139 | F 5831680 | FPS 1611 | D 513 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 55 | Strat 0.0 | H 1.586 | V 0.635 | pL -0.004 | vL 0.002 | ∇ 0.023
+U 1140 | F 5836800 | FPS 1619 | D 516 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 56 | Strat 0.0 | H 1.560 | V 0.630 | pL 0.002 | vL 0.002 | ∇ 0.020
+Model successfully saved
+U 1141 | F 5841920 | FPS 1613 | D 520 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 56 | Strat 0.0 | H 1.602 | V 0.617 | pL 0.007 | vL 0.003 | ∇ 0.021
+U 1142 | F 5847040 | FPS 1601 | D 523 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 48 | Strat 0.0 | H 1.584 | V 0.577 | pL 0.009 | vL 0.002 | ∇ 0.021
+U 1143 | F 5852160 | FPS 1627 | D 526 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 53 | Strat 0.0 | H 1.574 | V 0.578 | pL -0.006 | vL 0.002 | ∇ 0.020
+U 1144 | F 5857280 | FPS 1604 | D 529 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 50 | Strat 0.0 | H 1.573 | V 0.591 | pL -0.002 | vL 0.002 | ∇ 0.022
+U 1145 | F 5862400 | FPS 1607 | D 532 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 61 | Strat 0.0 | H 1.543 | V 0.620 | pL -0.007 | vL 0.002 | ∇ 0.022
+U 1146 | F 5867520 | FPS 1598 | D 536 | rR:x̄σmM 0.97 0.01 0.93 0.99 | Games 58 | Strat 0.0 | H 1.555 | V 0.619 | pL -0.001 | vL 0.002 | ∇ 0.022
+U 1147 | F 5872640 | FPS 1600 | D 539 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 54 | Strat 0.0 | H 1.579 | V 0.616 | pL -0.002 | vL 0.002 | ∇ 0.020
+U 1148 | F 5877760 | FPS 1601 | D 542 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 58 | Strat 0.0 | H 1.606 | V 0.622 | pL 0.003 | vL 0.002 | ∇ 0.020
+U 1149 | F 5882880 | FPS 1581 | D 545 | rR:x̄σmM 0.97 0.01 0.92 0.98 | Games 51 | Strat 0.0 | H 1.590 | V 0.614 | pL 0.010 | vL 0.002 | ∇ 0.020
+U 1150 | F 5888000 | FPS 1607 | D 548 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 55 | Strat 0.0 | H 1.600 | V 0.601 | pL -0.002 | vL 0.003 | ∇ 0.022
+Model successfully saved
+U 1151 | F 5893120 | FPS 1598 | D 552 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 45 | Strat 0.0 | H 1.599 | V 0.584 | pL 0.004 | vL 0.003 | ∇ 0.022
+U 1152 | F 5898240 | FPS 1603 | D 555 | rR:x̄σmM 0.96 0.02 0.91 0.99 | Games 59 | Strat 0.0 | H 1.587 | V 0.618 | pL -0.002 | vL 0.002 | ∇ 0.019
+U 1153 | F 5903360 | FPS 1600 | D 558 | rR:x̄σmM 0.97 0.01 0.94 0.98 | Games 51 | Strat 0.0 | H 1.596 | V 0.600 | pL 0.005 | vL 0.002 | ∇ 0.019
+U 1154 | F 5908480 | FPS 1598 | D 561 | rR:x̄σmM 0.96 0.01 0.93 0.98 | Games 47 | Strat 0.0 | H 1.624 | V 0.572 | pL 0.005 | vL 0.002 | ∇ 0.018
+U 1155 | F 5913600 | FPS 1616 | D 564 | rR:x̄σmM 0.96 0.02 0.91 0.99 | Games 47 | Strat 0.0 | H 1.617 | V 0.568 | pL 0.001 | vL 0.002 | ∇ 0.019
+U 1156 | F 5918720 | FPS 1608 | D 568 | rR:x̄σmM 0.96 0.02 0.90 0.98 | Games 50 | Strat 0.0 | H 1.603 | V 0.565 | pL -0.005 | vL 0.002 | ∇ 0.023
+U 1157 | F 5923840 | FPS 1598 | D 571 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 55 | Strat 0.0 | H 1.561 | V 0.588 | pL -0.007 | vL 0.002 | ∇ 0.024
+U 1158 | F 5928960 | FPS 1608 | D 574 | rR:x̄σmM 0.96 0.02 0.91 0.99 | Games 47 | Strat 0.0 | H 1.570 | V 0.582 | pL -0.001 | vL 0.002 | ∇ 0.018
+U 1159 | F 5934080 | FPS 1614 | D 577 | rR:x̄σmM 0.97 0.01 0.89 0.99 | Games 59 | Strat 0.0 | H 1.545 | V 0.603 | pL -0.008 | vL 0.002 | ∇ 0.021
+U 1160 | F 5939200 | FPS 1601 | D 580 | rR:x̄σmM 0.97 0.02 0.89 0.98 | Games 55 | Strat 0.0 | H 1.529 | V 0.629 | pL -0.005 | vL 0.002 | ∇ 0.017
+Model successfully saved
+U 1161 | F 5944320 | FPS 1599 | D 584 | rR:x̄σmM 0.97 0.01 0.95 0.99 | Games 64 | Strat 0.0 | H 1.554 | V 0.639 | pL -0.001 | vL 0.002 | ∇ 0.017
+U 1162 | F 5949440 | FPS 1567 | D 587 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 50 | Strat 0.0 | H 1.570 | V 0.609 | pL 0.009 | vL 0.002 | ∇ 0.021
+U 1163 | F 5954560 | FPS 1611 | D 590 | rR:x̄σmM 0.96 0.01 0.92 0.98 | Games 52 | Strat 0.0 | H 1.609 | V 0.596 | pL 0.008 | vL 0.002 | ∇ 0.019
+U 1164 | F 5959680 | FPS 1597 | D 593 | rR:x̄σmM 0.96 0.01 0.91 0.99 | Games 49 | Strat 0.0 | H 1.590 | V 0.572 | pL 0.005 | vL 0.002 | ∇ 0.019
+U 1165 | F 5964800 | FPS 1594 | D 596 | rR:x̄σmM 0.96 0.02 0.88 0.98 | Games 49 | Strat 0.0 | H 1.532 | V 0.582 | pL -0.003 | vL 0.002 | ∇ 0.020
+U 1166 | F 5969920 | FPS 1602 | D 600 | rR:x̄σmM 0.97 0.01 0.91 0.98 | Games 54 | Strat 0.0 | H 1.534 | V 0.601 | pL -0.010 | vL 0.002 | ∇ 0.018
+U 1167 | F 5975040 | FPS 1611 | D 603 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 58 | Strat 0.0 | H 1.567 | V 0.606 | pL -0.003 | vL 0.002 | ∇ 0.019
+U 1168 | F 5980160 | FPS 1606 | D 606 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 53 | Strat 0.0 | H 1.533 | V 0.597 | pL -0.001 | vL 0.003 | ∇ 0.019
+U 1169 | F 5985280 | FPS 1601 | D 609 | rR:x̄σmM 0.97 0.01 0.92 0.99 | Games 51 | Strat 0.0 | H 1.506 | V 0.617 | pL -0.006 | vL 0.002 | ∇ 0.017
+U 1170 | F 5990400 | FPS 1595 | D 612 | rR:x̄σmM 0.97 0.01 0.93 0.98 | Games 60 | Strat 0.0 | H 1.554 | V 0.610 | pL -0.007 | vL 0.002 | ∇ 0.018
+Model successfully saved
+U 1171 | F 5995520 | FPS 1608 | D 616 | rR:x̄σmM 0.97 0.01 0.94 0.99 | Games 57 | Strat 0.0 | H 1.528 | V 0.638 | pL 0.003 | vL 0.002 | ∇ 0.020
+U 1172 | F 6000640 | FPS 1599 | D 619 | rR:x̄σmM 0.96 0.01 0.94 0.98 | Games 52 | Strat 0.0 | H 1.499 | V 0.639 | pL 0.010 | vL 0.002 | ∇ 0.018
+/home/fabian_57/thesis_projects/curriculum-test/scripts/train.py --procs 40 --strat 0.2 --sigma 0.15 --algo=ppo --env MiniGrid-DoorKey-16x16-v0 --no-instr --tb --frames=6000000 --model garen-16 --save-interval 10 --ending-acc 1.0 --ending-acc-window 50 --save-frames 1000000 --discount 0.99 --reward-multiplier 0.9 --max-steps 2560 --strat-method gidb
+
+Namespace(algo='ppo', batch_size=256, clip_eps=0.2, discount=0.99, ending_acc=1.0, ending_acc_window=50, entropy_coef=0.01, env='MiniGrid-DoorKey-16x16-v0', epochs=4, frames=6000000, frames_per_proc=None, gae_lambda=0.95, log_interval=1, lr=0.0007, max_grad_norm=0.5, max_steps=2560, model='garen-16', no_instr=True, no_mem=False, optim_alpha=0.99, optim_eps=1e-05, procs=40, recurrence=1, reward_multiplier=0.9, save_frames=1000000, save_interval=10, seed=1, sigma=0.15, strat=0.2, strat_method='gidb', tb=True, use_min=False, value_loss_coef=0.5)
+
+Model successfully loaded
+
+ACModel(
+  (image_conv): Sequential(
+    (0): Conv2d(3, 16, kernel_size=(2, 2), stride=(1, 1))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    (3): Conv2d(16, 32, kernel_size=(2, 2), stride=(1, 1))
+    (4): ReLU()
+    (5): Conv2d(32, 64, kernel_size=(2, 2), stride=(1, 1))
+    (6): ReLU()
+  )
+  (memory_rnn): LSTMCell(64, 64)
+  (actor): Sequential(
+    (0): Linear(in_features=64, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=7, bias=True)
+  )
+  (critic): Sequential(
+    (0): Linear(in_features=64, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=1, bias=True)
+  )
+)
+
+CUDA available: True
+
