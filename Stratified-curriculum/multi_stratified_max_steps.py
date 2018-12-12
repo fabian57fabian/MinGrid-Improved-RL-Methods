@@ -9,19 +9,10 @@ from os import listdir
 from os.path import isfile, join
 import time
 
-def train(steps):
-    os.system("python stratified_curriculum-starter.py --acc 0.90 --sigma 0.5 --frames 13000000 --N 50 --procs 40 --name train_STEPS_"+str(steps)+" --discount 0.99 --reward-multiplier 0.8 --strat-method gicar --strat-distance 0.3 --max-steps "+str(steps))
+steps = np.array([1000,1500,2560,3000,4000,5000,6000,8000,10000])
 
 def main():
-    train(1000)
-    train(1500)
-    train(2560)
-    train(3000)
-    train(4000)
-    train(5000)
-    train(6000)
-    train(8000)
-    train(9000)
-    train(10000)
+    for step in steps:
+        os.system("python stratified_curriculum-starter.py --acc 0.90 --sigma 0.5 --frames 13000000 --N 50 --procs 40 --name train_STEPS_"+str(step)+" --discount 0.99 --reward-multiplier 0.8 --strat-method gicar --strat-distance 0.3 --max-steps "+str(step))
 
 main()
