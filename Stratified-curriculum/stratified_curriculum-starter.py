@@ -53,7 +53,7 @@ if not os.path.exists(trained_model_path):
     raise Exception("Missing basic trained model")
 
 # Deltas used for training without last one (delta=1 means random over all wall locations)
-deltas = np.arange(args.strat, 1, .02)
+deltas = np.arange(args.strat, 1, args.strat_distance)
 
 save_frames = 1000000
 
