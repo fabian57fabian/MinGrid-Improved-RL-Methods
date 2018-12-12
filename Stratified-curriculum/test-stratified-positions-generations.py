@@ -31,6 +31,8 @@ def tests():
     generator = cl_generator._gaussian_int_direct if args.type == "gid" else generator
     generator = cl_generator._gaussian_int_chi_and_random if args.type == "gicar" else generator
 
+    assert generator != None
+
     for delta in np.arange(0, 1.01, .01):
         x = np.zeros(high + 2)
         for j in range(99):

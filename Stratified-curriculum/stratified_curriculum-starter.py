@@ -34,6 +34,8 @@ parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
 parser.add_argument("--start-from-zero", action="store_true", default=False,
                     help="use a trained model in strat=0.0")
+parser.add_argument("--starting-model", default="master_yi",
+                    help="name of the model to begin with [master_yi with gicar, garen with gidb] (default: master_yi)")
 parser.add_argument("--max-steps", type=int, default=0,
                     help="max steps for DoorKey env (default: 10 * size * size)")
 parser.add_argument("--reward-multiplier", type=float, default=0.9,
@@ -48,7 +50,7 @@ if args.max_steps == 0:
 env = "MiniGrid-DoorKey-" + str(args.env_size) + "x" + str(args.env_size) + "-v0"
 model = "DK" + str(args.env_size) + "-strat-" + args.name
 
-trained_model_path = "storage/DK-" + str(args.env_size) + "-strat"
+trained_model_path = "storage/" + args.starting_model + "-" + str(args.env_size)
 
 if not os.path.exists(trained_model_path):
     print("BASIC Model in " + trained_model_path + " doesn't exists. Please create it and restart.")
