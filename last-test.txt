@@ -1,0 +1,3 @@
+python stratified_curriculum-starter.py --acc 0.90 --sigma 0.15 --frames 25000000 --N 50 --procs 40 --name NEW_garen_gicar --discount 0.99 --reward-multiplier 0.9 --strat-method gigar --strat-distance 0.2 --max-steps 2560
+
+
