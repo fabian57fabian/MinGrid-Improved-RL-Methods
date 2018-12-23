@@ -32,6 +32,8 @@ parser.add_argument("--discount", type=float, default=0.99,
                     help="discount factor (default: 0.99)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
+parser.add_argument("--use-noise-walls", action="store_true", default=False,
+                    help="use noise walls (default false)")
 parser.add_argument("--start-from-zero", action="store_true", default=False,
                     help="use a trained model in strat=0.0")
 parser.add_argument("--starting-model", default="master_yi",
@@ -83,7 +85,8 @@ def train(procs, delta_strat, N=5):
         args.frames) + " --model " + model + " --save-interval 10 --ending-acc " + str(
         args.acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
         args.discount) + (" --use-min" if args.use_min else "") + " --reward-multiplier " + str(
-        args.reward_multiplier) + " --max-steps " + str(args.max_steps) + " --strat-method " + str(args.strat_method))
+        args.reward_multiplier) + " --max-steps " + str(args.max_steps) + " --strat-method " + str(
+        args.strat_method) + (" --use-noise-walls" if args.use_noise_walls else ""))
     # Save train status
     with open('storage/' + model + '/info.json', 'w') as outfile:
         json.dump(

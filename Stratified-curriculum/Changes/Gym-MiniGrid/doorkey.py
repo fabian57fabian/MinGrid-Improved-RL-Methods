@@ -34,6 +34,20 @@ class DoorKeyEnv(MiniGridEnv):
             splitIdx = self._rand_int(2, width - 2)
         self.grid.vert_wall(splitIdx, 0)
 
+        # set 2 random pieces of wall
+        if self.use_noise_walls:
+            half_y = (int)(self.grid_size / 2)
+            if splitIdx >= 3:
+                self.set(self.rnd_noise.randint(2, splitIdx), self.rnd_noise.randint(1, half_y), Wall())
+                self.set(self.rnd_noise.randint(2, splitIdx), self.rnd_noise.randint(half_y, self.grid_size - 2),
+                         Wall())
+            if splitIdx <= self.grid_size - 4:
+                self.set(self.rnd_noise.randint(splitIdx + 1, self.grid_size - 2), self.rnd_noise.randint(1, half_y),
+                         Wall())
+                self.set(self.rnd_noise.randint(splitIdx + 1, self.grid_size - 2),
+                         self.rnd_noise.randint(half_y, self.grid_size - 2),
+                         Wall())
+
         # Place the agent at a random position and orientation
         # on the left side of the splitting wall
         self.start_pos = self.place_agent(size=(splitIdx, height))

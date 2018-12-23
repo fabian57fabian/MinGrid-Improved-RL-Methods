@@ -89,6 +89,8 @@ parser.add_argument("--reward-multiplier", type=float, default=0.9,
                     help="reward multiplier for reward formulae (1-rm * (steps/max_step)). default: 0.9. Lower it is, higher is the reward")
 parser.add_argument("--strat-method", default='gicar',
                     help="name of the method to use [gigar, gicar, gidb, gib](default: gicar)")
+parser.add_argument("--use-noise-walls", action="store_true", default=False,
+                    help="use noise walls (default false)")
 args = parser.parse_args()
 
 # Define run dir
@@ -123,6 +125,7 @@ for i in range(args.procs):
     env = gym.make(args.env)
     env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma, strat_method=args.strat_method)
     env.set_reward_multiplier(args.reward_multiplier)
+    env.set_noise_walls(args.use_noise_walls)
     if args.max_steps != -1:
         # default max steps are 10*size*size, for size=16 is 2560
         env.set_max_steps(args.max_steps)

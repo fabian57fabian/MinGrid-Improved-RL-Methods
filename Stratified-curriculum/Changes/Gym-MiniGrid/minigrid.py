@@ -698,6 +698,9 @@ class MiniGridEnv(gym.Env):
 
         # Initialize the RNG
         self.seed(seed=seed)
+        self.set_reward_multiplier(0.9)
+        self.set_noise_seed(1456)
+        self.set_noise_walls(False)
 
         # Initialize the state
         self.reset()
@@ -730,7 +733,7 @@ class MiniGridEnv(gym.Env):
         obs = self.gen_obs()
         return obs
 
-    #Starting gidb, gid, gicar, gigar
+    # Starting gidb, gid, gicar, gigar
 
     # No sigma control
     def _gaussian_int_direct_big(self, low, high):
@@ -758,7 +761,7 @@ class MiniGridEnv(gym.Env):
     # Sigma-CONTROLLED
     def _gaussian_int_gaussian_and_random(self, low, high):
         # Generate 'gaussian' integer in [low,high[
-        if low == high-1 or self.delta_strat == 0: 
+        if low == high - 1 or self.delta_strat == 0:
             return low
         if self.delta_strat <= 0.5:
             _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
@@ -807,9 +810,12 @@ class MiniGridEnv(gym.Env):
             return self._gaussian_int_chi_and_random(low, high)
         elif self.strat_method == 'gigar':
             return self._gaussian_int_gaussian_and_random(low, high)
-        else: 
-            raise AssertionError('Method '+ str(self.strat_method)+' not recognized')
+        else:
+            raise AssertionError('Method ' + str(self.strat_method) + ' not recognized')
 
+    def set_noise_seed(self, noise_seed):
+        self.noise_seed = noise_seed
+        self.rnd_noise, _ = seeding.np_random(noise_seed)
 
     def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, strat_method='gidb'):
         self.strat_method = strat_method
@@ -823,6 +829,10 @@ class MiniGridEnv(gym.Env):
     def set_reward_multiplier(self, reward_multiplier):
         assert reward_multiplier > 0 and reward_multiplier <= 1
         self.reward_multiplier = reward_multiplier
+
+    def set_noise_walls(self, noise_walls):
+        assert noise_walls == True or noise_walls == False
+        self.use_noise_walls = noise_walls
 
     @property
     def steps_remaining(self):
