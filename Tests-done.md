@@ -12,3 +12,4 @@
 * __21 nov 2018__: added reward_multiplier control in formula [1-rm*(current_step/max_steps)] and different reward multiplier tested ( 0.9 default, 0.8, 0.7, 0.6, 0.5)
 * __06 dic 2018__: added test method choise in train and stratified_curriculum script's menu (also max-steps control added)
 * __11 dic 2018__: added trainings with bigger max steps (from 10*size*size as 1560 to 5000 and more)
+* __23 dic 2018__: added noise control to insert random walls on right and left side of main wall with door and enjoy2.py uploaded
