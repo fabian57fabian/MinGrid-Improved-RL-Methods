@@ -44,6 +44,8 @@ parser.add_argument("--reward-multiplier", type=float, default=0.9,
                     help="reward multiplier for reward formulae (1-rm * (steps/max_step)). default: 0.9. Lower it is, higher is the reward")
 parser.add_argument("--strat-method", default='gicar',
                     help="name of the method to use [gigar, gicar, gidb, gib](default: gicar)")
+parser.add_argument("--optim-eps", type=float, default=1e-5,
+                    help="Adam and RMSprop optimizer epsilon (default: 1e-5)")
 args = parser.parse_args()
 
 if args.max_steps == 0:
@@ -86,7 +88,8 @@ def train(procs, delta_strat, N=5):
         args.acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
         args.discount) + (" --use-min" if args.use_min else "") + " --reward-multiplier " + str(
         args.reward_multiplier) + " --max-steps " + str(args.max_steps) + " --strat-method " + str(
-        args.strat_method) + (" --use-noise-walls" if args.use_noise_walls else ""))
+        args.strat_method) + (" --use-noise-walls" if args.use_noise_walls else "") + " --optim-eps " + str(
+        args.optim_eps))
     # Save train status
     with open('storage/' + model + '/info.json', 'w') as outfile:
         json.dump(
