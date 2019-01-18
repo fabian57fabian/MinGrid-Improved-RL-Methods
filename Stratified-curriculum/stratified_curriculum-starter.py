@@ -34,9 +34,7 @@ parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
 parser.add_argument("--use-noise-walls", action="store_true", default=False,
                     help="use noise walls (default false)")
-parser.add_argument("--start-from-zero", action="store_true", default=False,
-                    help="use a trained model in strat=0.0")
-parser.add_argument("--starting-model", default="master_yi",
+parser.add_argument("--starting-model", default="none",
                     help="name of the model to begin with [master_yi with gicar, garen with gidb] (default: master_yi)")
 parser.add_argument("--max-steps", type=int, default=0,
                     help="max steps for DoorKey env (default: 10 * size * size)")
@@ -48,40 +46,42 @@ parser.add_argument("--optim-eps", type=float, default=1e-5,
                     help="Adam and RMSprop optimizer epsilon (default: 1e-5)")
 args = parser.parse_args()
 
+# setting max steps
 if args.max_steps == 0:
     args.max_steps = 10 * args.env_size * args.env_size
 
+# setting environment
 env = "MiniGrid-DoorKey-" + str(args.env_size) + "x" + str(args.env_size) + "-v0"
-model = args.name
-
-trained_model_path = "storage/" + args.starting_model + "-" + str(args.env_size)
-
-if not os.path.exists(trained_model_path):
-    print("BASIC Model in " + trained_model_path + " doesn't exists. Please create it and restart.")
-    raise Exception("Missing basic trained model")
 
 # Deltas used for training without last one (delta=1 means random over all wall locations)
 deltas = np.arange(args.strat, 1, args.strat_distance)
-
 save_frames = 1000000
 
+# setting model
+model = args.name
 
-def mkdir(path):
-    if not os.path.exists(path):
-        os.makedirs(path)
+# seting status file
+status_file = "storage/" + model + "/status.json"
 
+# setting starting model
+start_from_zero = args.starting_model == "none"
+if not os.path.exists("storage/" + args.starting_model) and not start_from_zero:
+    print("BASIC Model in " + "storage/" + args.starting_model + " doesn't exists. Please create it and restart.")
+    raise Exception("Missing basic trained model")
 
-if not os.path.exists("storage/" + model) and not args.start_from_zero:
+# copying existing model if required
+if not os.path.exists("storage/" + model) and not start_from_zero:
     src = "storage" + "/DK-" + str(args.env_size) + "-strat"
     dest = "storage/" + model
     print("Creating model based on BASIC model")
-    mkdir(dest)
+    if not os.path.exists(dest):
+        os.makedirs(dest)
     files = [f for f in listdir(src) if isfile(join(src, f))]
     for _file in files:
         shutil.copyfile(src + '/' + _file, dest + '/' + _file)
 
 
-def train(procs, delta_strat, N=5):
+def train(procs, delta_strat, N):
     os.system("python3 -m scripts.train --procs " + str(procs) + " --strat " + str(delta_strat) + " --sigma " + str(
         args.sigma) + " --algo=ppo --env " + env + " --no-instr --tb --frames=" + str(
         args.frames) + " --model " + model + " --save-interval 10 --ending-acc " + str(
@@ -98,9 +98,6 @@ def train(procs, delta_strat, N=5):
              "reward-multiplier": args.reward_multiplier}, outfile)
 
 
-status_file = "storage/" + model + "/status.json"
-
-
 def read_last_frames():
     if os.path.exists(status_file):
         with open(status_file) as f:
@@ -110,18 +107,27 @@ def read_last_frames():
         return -1
 
 
+def get_N(strat):
+    if strat < .1:
+        return strat.N
+    if strat < .3:
+        return 1000 * (strat - 0.1) + strat.N
+    return strat.N + 200
+
+
 def main():
     old_frames = -2
     for _delta in deltas:
+        print("N changed to " + str(int(get_N(_delta))))
         new_frames = read_last_frames()
         if new_frames == old_frames:
             print("Closing because max fames limit of " + str(args.frames) + " reached")
             return 0
         else:
             old_frames = new_frames
-        train(args.procs, _delta, N=args.N)
+        train(args.procs, _delta, N=int(get_N(_delta)))
     # The last training with random doors
-    train(args.procs, 1, N=args.N)
+    train(args.procs, 1, N=int(get_N(1)))
 
 
 try:
