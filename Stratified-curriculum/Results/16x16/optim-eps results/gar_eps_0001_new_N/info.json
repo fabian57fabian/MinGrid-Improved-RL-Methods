@@ -1,0 +1,1 @@
+{"delta:": 0.2, "acc": 0.9, "env-size": 16, "max-frames": 15000000, "N": 250, "procs": 30, "name": "gar_eps_0001_new_N", "discount": 0.99, "use-min": false, "reward-multiplier": 0.9}

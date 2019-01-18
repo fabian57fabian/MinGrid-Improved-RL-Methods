@@ -109,10 +109,10 @@ def read_last_frames():
 
 def get_N(strat):
     if strat < .1:
-        return strat.N
+        return args.N
     if strat < .3:
-        return 1000 * (strat - 0.1) + strat.N
-    return strat.N + 200
+        return 1000 * (strat - 0.1) + args.N
+    return args.N + 200
 
 
 def main():
