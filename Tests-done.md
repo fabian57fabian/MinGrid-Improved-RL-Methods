@@ -15,3 +15,4 @@
 * __23 dic 2018__: added noise control to insert random walls on right and left side of main wall with door and enjoy2.py uploaded
 * __08 gen 2019__: added epsilon optimization parameter in stratified curriculum starter
 * __18 gen 2019__: added results with graphs with different eps_optim parameter
+* __19 gen 2019__: added first training that surpasses middle drop and then drops at 0.90 of strat
