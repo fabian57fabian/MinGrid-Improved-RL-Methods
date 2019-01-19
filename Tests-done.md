@@ -13,3 +13,5 @@
 * __06 dic 2018__: added test method choise in train and stratified_curriculum script's menu (also max-steps control added)
 * __11 dic 2018__: added trainings with bigger max steps (from 10*size*size as 1560 to 5000 and more)
 * __23 dic 2018__: added noise control to insert random walls on right and left side of main wall with door and enjoy2.py uploaded
+* __08 gen 2019__: added epsilon optimization parameter in stratified curriculum starter
+* __18 gen 2019__: added results with graphs with different eps_optim parameter
