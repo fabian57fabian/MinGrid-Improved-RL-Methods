@@ -32,8 +32,6 @@ parser.add_argument("--discount", type=float, default=0.99,
                     help="discount factor (default: 0.99)")
 parser.add_argument("--use-min", action="store_true", default=False,
                     help="use min instead of mean for accurancy")
-parser.add_argument("--use-noise-walls", action="store_true", default=False,
-                    help="use noise walls (default false)")
 parser.add_argument("--starting-model", default="none",
                     help="name of the model to begin with [master_yi with gicar, garen with gidb] (default: master_yi)")
 parser.add_argument("--max-steps", type=int, default=0,
@@ -88,7 +86,7 @@ def train(procs, delta_strat, N):
         args.acc) + " --ending-acc-window " + str(N) + " --save-frames " + str(save_frames) + " --discount " + str(
         args.discount) + (" --use-min" if args.use_min else "") + " --reward-multiplier " + str(
         args.reward_multiplier) + " --max-steps " + str(args.max_steps) + " --strat-method " + str(
-        args.strat_method) + (" --use-noise-walls" if args.use_noise_walls else "") + " --optim-eps " + str(
+        args.strat_method) + " --optim-eps " + str(
         args.optim_eps))
     # Save train status
     with open('storage/' + model + '/info.json', 'w') as outfile:
@@ -112,7 +110,7 @@ def get_N(strat):
         return args.N
     if strat < .3:
         return 1000 * (strat - 0.1) + args.N
-    return args.N + 200
+    return args.N
 
 
 def main():

@@ -699,8 +699,6 @@ class MiniGridEnv(gym.Env):
         # Initialize the RNG
         self.seed(seed=seed)
         self.set_reward_multiplier(0.9)
-        self.set_noise_seed(1456)
-        self.set_noise_walls(False)
 
         # Initialize the state
         self.reset()
@@ -813,14 +811,11 @@ class MiniGridEnv(gym.Env):
         else:
             raise AssertionError('Method ' + str(self.strat_method) + ' not recognized')
 
-    def set_noise_seed(self, noise_seed):
-        self.noise_seed = noise_seed
-        self.rnd_noise, _ = seeding.np_random(noise_seed)
-
-    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, strat_method='gidb'):
+    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, strat_method='gidb', fixed_wall_id = -1):
         self.strat_method = strat_method
         self.delta_strat = delta_strat
         self.gaussian_sigma = gaussian_sigma
+        self.fixed_wall_id = fixed_wall_id
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
         self.np_random_gauss, _ = seeding.np_random(seed + 20)
@@ -829,10 +824,6 @@ class MiniGridEnv(gym.Env):
     def set_reward_multiplier(self, reward_multiplier):
         assert reward_multiplier > 0 and reward_multiplier <= 1
         self.reward_multiplier = reward_multiplier
-
-    def set_noise_walls(self, noise_walls):
-        assert noise_walls == True or noise_walls == False
-        self.use_noise_walls = noise_walls
 
     @property
     def steps_remaining(self):
