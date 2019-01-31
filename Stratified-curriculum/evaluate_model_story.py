@@ -4,9 +4,7 @@ import gym
 from os import listdir
 from scripts.evaluate_all_walls import start
 from scripts.evaluate_all_walls import save_all
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-import numpy as np
+from view_model_story import create_plot_histograms
 
 
 def main():
@@ -38,25 +36,10 @@ def main():
         all_frames_data.append(all_data)
         save_all(all_data, save_floder, model_with_frames)
 
-    _plt = create_plot_3d(all_frames_data, models)
+    _plt = create_plot_histograms(all_frames_data, models)
     _plt.savefig("storage/" + save_floder + "/accuracy_mean.png")
     if args.show_graphs:
         _plt.show()
-
-
-def create_plot_3d(data, models):
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    colors = ['b', 'g', 'r', 'c', 'm', 'y', 'k', 'b', 'g', 'r', 'c', 'm', 'y', 'k', 'b', 'g', 'r', 'c', 'm', 'y', 'k']
-    for i, all_data in enumerate(data):
-        xs = np.arange(0, all_data.shape[0], 1, dtype=int)
-        ys = all_data[:, 0]
-        ax.bar(xs, ys, zs=models[i], zdir='y', color=colors[i], alpha=0.8)
-    ax.set_xlabel('walls')
-    ax.set_ylabel('trains')
-    ax.set_zlabel('mean accurancy')
-
-    return plt
 
 
 if __name__ == "__main__":

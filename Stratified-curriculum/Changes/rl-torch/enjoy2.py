@@ -22,28 +22,19 @@ parser.add_argument("--seed", type=int, default=0,
                     help="random seed (default: 0)")
 parser.add_argument("--argmax", action="store_true", default=False,
                     help="action with highest probability is selected")
-parser.add_argument("--pause", type=float, default=0.1,
-                    help="pause duration between two consequent actions of the agent")
-parser.add_argument("--use-noise-walls", action="store_true", default=False,
-                    help="use noise walls (default false)")
-parser.add_argument("--strat", type=float, default=1,
-                    help="delta for stratified curriculum (default 1 meaning no stratification, just random)")
-parser.add_argument("--sigma", type=float, default=0.3,
-                    help="sigma value for gaussian stratified (default: 0.6)")
-parser.add_argument("--strat-method", default='gicar',
-                    help="name of the method to use [gigar, gicar, gidb, gib](default: gicar)")
+parser.add_argument("--pause", type=float, default=0.001,
+                    help="pause duration between two consequent actions of the agent (the speed, default 0.1)")
+parser.add_argument("--wall-fixed", type=int, default=0,
+                    help="set only a wall")
 args = parser.parse_args()
 
 # Set seed for all randomness sources
-
 utils.seed(args.seed)
 
-# Generate environment
+assert args.wall_fixed == 0 or args.wall_fixed > 1 and args.wall_fixed < 16 - 2, "Fixed wall not in [2,13] or not zero"
 
+# Generate environment
 env = gym.make(args.env)
-strat = delta_strat = args.strat
-env.seed(args.seed, delta_strat=strat, gaussian_sigma=args.sigma, strat_method=args.strat_method)
-env.set_noise_walls(args.use_noise_walls)
 
 # Define agent
 
@@ -53,13 +44,13 @@ agent = utils.Agent(save_dir, env.observation_space, args.argmax)
 # Run the agent
 
 done = True
-
+wall_id = 1
 while True:
     if done:
-        strat += .02
-        if strat > 1:
-            strat = 0
-        env.seed(args.seed, strat, gaussian_sigma=args.sigma, strat_method=args.strat_method)
+        wall_id += 1
+        if wall_id > 13:
+            wall_id = 2
+        env.seed(args.seed, fixed_wall_id=(wall_id if args.wall_fixed == 0 else args.wall_fixed))
         obs = env.reset()
         print("Instr:", obs["mission"])
 
