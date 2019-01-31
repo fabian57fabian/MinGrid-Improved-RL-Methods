@@ -199,7 +199,7 @@ last_frame_block = int(num_frames / args.save_frames)
 save_folder = "copies_of_" + args.model
 
 if num_frames > args.save_frames:
-    copy_agent(args.model, "first-strat-" + str(args.strat) + "-frames-" + str(num_frames))
+    copy_agent(args.model, "frames-" + str(num_frames))
 
 mkdir("storage/" + save_folder)
 
@@ -282,3 +282,6 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
     if int(num_frames / args.save_frames) > last_frame_block:
         last_frame_block = int(num_frames / args.save_frames)
         copy_agent(args.model, "frames-" + str(num_frames))
+
+#copy agent before exiting (normally when ending a strat number)
+copy_agent(args.model, "frames-" + str(num_frames))
