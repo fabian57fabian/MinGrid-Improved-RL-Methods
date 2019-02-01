@@ -69,7 +69,7 @@ def start(model, seed, episodes, size):
 
         for i in range(procs):
             env = gym.make(env_name)
-            env.seed(seed + 10000 * i, fixed_wall_id=_wall)
+            env.setWallID(_wall)
             envs.append(env)
         env = ParallelEnv(envs)
 

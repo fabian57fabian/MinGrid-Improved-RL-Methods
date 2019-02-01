@@ -20,7 +20,7 @@ def main():
 
     all_frames_data = []
     filenames = find_filenames(test_folder, '.csv')
-    sorted_files = [int(_model[7:-4]) for _model in filenames]
+    sorted_files = [int(_model.split("-")[1]) for _model in filenames]
     sorted_files.sort()
     frames = np.zeros(len(sorted_files))
     for i, frame_number in enumerate(sorted_files):

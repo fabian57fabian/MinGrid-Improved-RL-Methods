@@ -731,94 +731,14 @@ class MiniGridEnv(gym.Env):
         obs = self.gen_obs()
         return obs
 
-    # Starting gidb, gid, gicar, gigar
-
-    # No sigma control
-    def _gaussian_int_direct_big(self, low, high):
-        # If number is one, then give back random uniform values in [low, high[
-        if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
-        # Generate 'gaussian' integer in [low,high[ getting bigget
-        _mean = low + ((self.delta_strat / 2) * (high - low))
-        _sigma = self.delta_strat * (high - low) / 3
-        pos = int(self.np_random_gauss.normal(_mean, _sigma))
-        pos = high - 1 if pos >= high else pos
-        pos = low if pos < low else pos
-        return pos
-
-    # Sigma-CONTROLLED
-    def _gaussian_int_direct(self, low, high):
-        # If number is one, then give back random uniform values in [low, high[
-        if self.delta_strat == 1: return int(self.np_random_gauss.uniform(low, high))
-        # Generate 'gaussian' integer in [low,high[
-        _mean = low + (self.delta_strat * (high - 1 - low))
-        pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))
-        pos = high - 1 if pos >= high else pos
-        pos = low if pos < low else pos
-        return pos
-
-    # Sigma-CONTROLLED
-    def _gaussian_int_gaussian_and_random(self, low, high):
-        # Generate 'gaussian' integer in [low,high[
-        if low == high - 1 or self.delta_strat == 0:
-            return low
-        if self.delta_strat <= 0.5:
-            _mean = low + ((2 * self.delta_strat) * (high - 1 - low))
-            pos = int(self.np_random_gauss.normal(_mean, self.gaussian_sigma))
-            pos = high - 1 if pos >= high else pos
-            pos = low if pos < low else pos
-            return pos
-        else:
-            # Generate random int in [x, high[, having x setted by delta_strat
-            x = 2 * (1 - self.delta_strat)
-            x = low + int((high - 1 - low) * x)
-            return self.np_random_gauss.randint(x, high)
-
-    # No sigma control
-    def _gaussian_int_chi_and_random(self, low, high):
-        # Generate 'gaussian' integer in [low,high[
-        if low == high - 1 or self.delta_strat < .03: return low
-        if self.delta_strat <= 0.5:
-            # Generate random int with gaussian function using self.delta_strat
-            base_pos = low + int((2 * (self.delta_strat - .02)) * (high - 1 - low))
-            rnd = self.np_random_gauss.randint(0, 100)
-            if rnd < 90:
-                posID = 0
-            else:
-                posID = 1
-            if rnd < 6 and base_pos > low:
-                posID = -1
-            # Starting point + delta_start mapped between low and high + position given by ""X^2"" distribution
-            pos = base_pos + posID
-            if pos > high:
-                pos = high
-            return pos
-        else:
-            # Generate random int in [x, high[, having x setted by delta_strat
-            x = 2 * (1 - self.delta_strat)
-            x = low + int((high - 1 - low) * x)
-            return self.np_random_gauss.randint(x, high)
-
-    # Stratified function called
-    def _strat_int(self, low, high):
-        if self.strat_method == 'gidb':
-            return self._gaussian_int_direct_big(low, high)
-        elif self.strat_method == 'gib':
-            return self._gaussian_int_direct(low, high)
-        elif self.strat_method == 'gicar':
-            return self._gaussian_int_chi_and_random(low, high)
-        elif self.strat_method == 'gigar':
-            return self._gaussian_int_gaussian_and_random(low, high)
-        else:
-            raise AssertionError('Method ' + str(self.strat_method) + ' not recognized')
-
-    def seed(self, seed=1337, delta_strat=1, gaussian_sigma=0.6, strat_method='gidb', fixed_wall_id = -1):
-        self.strat_method = strat_method
-        self.delta_strat = delta_strat
-        self.gaussian_sigma = gaussian_sigma
+    def set_wall_id(self, fixed_wall_id):
         self.fixed_wall_id = fixed_wall_id
+
+    def seed(self, seed=1337):
         # Seed the random number generator
         self.np_random, _ = seeding.np_random(seed)
-        self.np_random_gauss, _ = seeding.np_random(seed + 20)
+        # Set not to use fixed wall
+        self.fixed_wall_id = -1
         return [seed]
 
     def set_reward_multiplier(self, reward_multiplier):

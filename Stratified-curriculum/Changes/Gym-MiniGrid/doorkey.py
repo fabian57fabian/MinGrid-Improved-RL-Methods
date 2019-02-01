@@ -27,12 +27,10 @@ class DoorKeyEnv(MiniGridEnv):
         self.grid.set(width - 2, height - 2, Goal())
 
         # Create a vertical splitting wall
-        # CHANGED by Fabian for stratified curriculum
+        # CHANGED by Fabian to use fixed wall
         if self.fixed_wall_id >= 0:
             assert self.fixed_wall_id >= 2 and self.fixed_wall_id < width - 2
             splitIdx = self.fixed_wall_id
-        elif self.delta_strat * 1.05 < 1:
-            splitIdx = self._strat_int(2, width - 2)
         else:
             splitIdx = self._rand_int(2, width - 2)
         self.grid.vert_wall(splitIdx, 0)

@@ -69,7 +69,7 @@ if not os.path.exists("storage/" + args.starting_model) and not start_from_zero:
 
 # copying existing model if required
 if not os.path.exists("storage/" + model) and not start_from_zero:
-    src = "storage" + "/DK-" + str(args.env_size) + "-strat"
+    src = "storage/" + args.starting_model
     dest = "storage/" + model
     print("Creating model based on BASIC model")
     if not os.path.exists(dest):
@@ -110,6 +110,8 @@ def get_N(strat):
         return args.N
     if strat < .3:
         return 1000 * (strat - 0.1) + args.N
+    if strat > .7:
+        return args.N * 2
     return args.N
 
 

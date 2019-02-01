@@ -26,7 +26,7 @@ def main():
     for _copy_of in listdir(path):
         if os.path.isfile("storage/copies_of_" + args.model + "/" + _copy_of + "/model.pt"):
             models.append(_copy_of)
-    models = [int(_model[7:]) for _model in models]
+    models = [int(_model.split("-")[1]) for _model in models]
     models.sort()
 
     for _model in models:

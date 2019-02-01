@@ -11,6 +11,7 @@ import torch
 import torch_rl
 import sys
 import numpy as np
+from scripts.stratification import Stratified
 
 try:
     import gym_minigrid
@@ -116,12 +117,17 @@ logger.info("{}\n".format(args))
 
 utils.seed(args.seed)
 
+strat_generator = Stratified(args.seed, size=16)
+strat_generator.set_strat(args.strat)
+strat_generator.set_gaussian_sigma(args.sigma)
 # Generate environments
+
 
 envs = []
 for i in range(args.procs):
     env = gym.make(args.env)
-    env.seed(args.seed + 10000 * i, delta_strat=args.strat, gaussian_sigma=args.sigma, strat_method=args.strat_method)
+    env.seed(args.seed + 10000 * i)
+    env.set_wall_id(strat_generator.strat_method_from(args.strat_method)())
     env.set_reward_multiplier(args.reward_multiplier)
     if args.max_steps != -1:
         # default max steps are 10*size*size, for size=16 is 2560
@@ -199,7 +205,7 @@ last_frame_block = int(num_frames / args.save_frames)
 save_folder = "copies_of_" + args.model
 
 if num_frames > args.save_frames:
-    copy_agent(args.model, "frames-" + str(num_frames))
+    copy_agent(args.model, "frames-" + str(num_frames) + "-strat-" + str(args.strat))
 
 mkdir("storage/" + save_folder)
 
@@ -283,5 +289,5 @@ while num_frames < args.frames and mean_acc_mean < args.ending_acc:
         last_frame_block = int(num_frames / args.save_frames)
         copy_agent(args.model, "frames-" + str(num_frames))
 
-#copy agent before exiting (normally when ending a strat number)
-copy_agent(args.model, "frames-" + str(num_frames))
+# copy agent before exiting (normally when ending a strat number)
+copy_agent(args.model, "frames-" + str(num_frames) + "-strat-" + str(args.strat))
